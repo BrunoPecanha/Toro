@@ -16,5 +16,9 @@ namespace Toro.Domain.Entity {
             AccountAmount = accountAmount;
             AssetXPatrimony = assets;
         }
+
+        public void UpdateAmount(decimal value) {
+            this.AccountAmount += value;
+        }
     }
 }

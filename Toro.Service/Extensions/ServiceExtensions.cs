@@ -13,8 +13,7 @@ namespace Toro.Service.Extensions {
 
             //Entidadades
             services.AddTransient<IInvestorRepository, InvestorRepository>();
-            //services.AddTransient<IDepositRepository, DepositRepository>();        
-        
+            services.AddTransient<IEventService, EventService>();
 
             return services;
         }

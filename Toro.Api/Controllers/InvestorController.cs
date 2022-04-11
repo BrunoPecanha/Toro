@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Toro.Domain;
 
 namespace Toro.Api.Controllers {
-    [Route("api/investor")]
+    [Route("investor")]
     public class InvestorController : Controller {
         private readonly IInvestorRepository _repository;
 

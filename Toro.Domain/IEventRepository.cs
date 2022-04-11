@@ -2,8 +2,7 @@
 using Toro.Domain.Commands;
 
 namespace Toro.Domain {
-    public interface IEventRepository  {
-        Task<CommandResult> Deposit(EventCommand command);
+    public interface IEventRepository  {        
         Task<CommandResult> Order(EventCommand command);
     }
 }

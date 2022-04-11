@@ -40,7 +40,7 @@ namespace Toro.Repository {
                 var patrimony = new {
                     AccountAmount = query.AccountAmount,
                     Assets = assets,
-                    TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince)
+                    TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince * x.Amount)
                 };
 
                 return new CommandResult(true, string.Empty, patrimony);
