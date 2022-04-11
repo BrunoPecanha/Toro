@@ -34,12 +34,12 @@ namespace Toro.Repository {
                 var assets = query.AssetXPatrimony
                                   .Select(x => new { Symbol = x.AssetId, Amount = x.Amount, CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
                                   .First().CurrentPrice })
-                                  .OrderBy(x => x.Symbol)
+                                  .OrderBy(x => x.Symbol)                                 
                                   .ToList();
 
                 var patrimony = new {
                     AccountAmount = query.AccountAmount,
-                    Assets = assets,
+                    Assets = assets.Distinct(),
                     TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince * x.Amount)
                 };
 
@@ -55,7 +55,7 @@ namespace Toro.Repository {
             try {
                 var query = await _dbContext.AssetXPatrimony
                                         .Include(x => x.Asset)
-                                        .Where(x => x.RegisteringDate > DateTime.Now.AddDays(-7))
+                                        .Where(x => x.LastUpdate > DateTime.Now.AddDays(-7))
                                         .Select(x => x.Asset)                                     
                                         .ToArrayAsync();
 

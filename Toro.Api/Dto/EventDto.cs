@@ -1,5 +1,6 @@
 ﻿namespace Toro.Api.Dto {
     public class EventDto {
+        public string InvestorId { get; set; }
         public string AssetId { get; set; }
         public string OriginBank { get; set; }
         public string OriginBranch { get; set; }
