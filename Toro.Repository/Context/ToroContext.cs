@@ -19,6 +19,7 @@ namespace Toro.Repository.Context {
         public DbSet<Asset> Asset { get; set; }
         public DbSet<Investor> Investor { get; set; }
         public DbSet<Patrimony> Patrimony { get; set; }
+        public DbSet<AssetXPatrimony> AssetXPatrimony { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ToroContext).Assembly);

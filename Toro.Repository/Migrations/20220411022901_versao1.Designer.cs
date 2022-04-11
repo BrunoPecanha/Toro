@@ -9,20 +9,20 @@ using Toro.Repository.Context;
 namespace Toro.Repository.Migrations
 {
     [DbContext(typeof(ToroContext))]
-    [Migration("20220410182126_versao1")]
+    [Migration("20220411022901_versao1")]
     partial class versao1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.8");
+                .HasAnnotation("ProductVersion", "5.0.15");
 
             modelBuilder.Entity("Toro.Domain.Entity.Asset", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Symbol");
 
                     b.Property<decimal>("CurrentPrice")
                         .HasColumnType("TEXT")
@@ -31,10 +31,6 @@ namespace Toro.Repository.Migrations
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("RegisteringDate");
-
-                    b.Property<string>("Symbol")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Symbol");
 
                     b.HasKey("Id");
 
@@ -46,8 +42,8 @@ namespace Toro.Repository.Migrations
                     b.Property<int>("PatrimonyId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AssetId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("AssetId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER")

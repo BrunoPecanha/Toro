@@ -1,5 +1,5 @@
 ﻿namespace Toro.Domain.Entity {
-    public class Investor: To {
+    public class Investor: To<int> {
         public int Cpf { get; private set; }
         public int Account { get; private set; }
         public int Branch { get; private set; }

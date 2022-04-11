@@ -11,15 +11,13 @@ namespace Toro.Repository.Migrations
                 name: "Asset",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Symbol = table.Column<string>(type: "TEXT", nullable: true),
+                    Symbol = table.Column<string>(type: "TEXT", nullable: false),
                     CurrentPrice = table.Column<decimal>(type: "TEXT", nullable: false),
                     RegisteringDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Asset", x => x.Id);
+                    table.PrimaryKey("PK_Asset", x => x.Symbol);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,7 +85,7 @@ namespace Toro.Repository.Migrations
                 columns: table => new
                 {
                     PatrimonyId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AssetId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AssetId = table.Column<string>(type: "TEXT", nullable: false),
                     Amount = table.Column<int>(type: "INTEGER", nullable: false),
                     RegisteringDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -98,7 +96,7 @@ namespace Toro.Repository.Migrations
                         name: "FK_AssetXPatrimony_Asset_AssetId",
                         column: x => x.AssetId,
                         principalTable: "Asset",
-                        principalColumn: "Id",
+                        principalColumn: "Symbol",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AssetXPatrimony_Patrimony_PatrimonyId",

@@ -14,13 +14,13 @@ namespace Toro.Repository.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.8");
+                .HasAnnotation("ProductVersion", "5.0.15");
 
             modelBuilder.Entity("Toro.Domain.Entity.Asset", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Symbol");
 
                     b.Property<decimal>("CurrentPrice")
                         .HasColumnType("TEXT")
@@ -29,10 +29,6 @@ namespace Toro.Repository.Migrations
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("RegisteringDate");
-
-                    b.Property<string>("Symbol")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Symbol");
 
                     b.HasKey("Id");
 
@@ -44,8 +40,8 @@ namespace Toro.Repository.Migrations
                     b.Property<int>("PatrimonyId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AssetId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("AssetId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER")

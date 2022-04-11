@@ -26,7 +26,7 @@ namespace Toro.Api.Controllers {
         }
 
         /// <summary>
-        /// Endpoint para re
+        /// Endpoint que trás os ativos mais negociados nos últimos 5 dias
         /// </summary>
         /// TORO-004 - Eu, como investidor, gostaria de ter acesso a uma lista de 5 ações mais negociadas nos últimos 7 dias, com seus respectivos preços.
         [HttpGet("trends")]
@@ -38,6 +38,5 @@ namespace Toro.Api.Controllers {
 
             return BadRequest(ret);
         }
-
     }
 }
