@@ -22,7 +22,7 @@ namespace Toro.Repository.EntityConfig {
              .IsRequired();
 
             builder
-            .Property(c => c.Symbol)
+            .Property(c => c.Id)
             .HasColumnName("Symbol");
         }
     }

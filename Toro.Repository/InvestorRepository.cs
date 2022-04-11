@@ -9,7 +9,8 @@ using Toro.Repository.Context;
 namespace Toro.Repository {
     public class InvestorRepository : IInvestorRepository {
         private readonly IToroContext _dbContext;
-        private const string returnMessage = "Não foi encontrado nenhum patrimonio para o investidor informado";
+        private const string erromsg = "Não foi encontrado nenhum patrimonio para o investidor informado";
+        private const string noAssetinfo = "Não houveram transações nos últimos 7 dias";
 
         public InvestorRepository(IToroContext dbContext) {
             _dbContext = dbContext;
@@ -18,7 +19,7 @@ namespace Toro.Repository {
         //TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
         public async Task<CommandResult> GetBalanceByIdAsync(int investorId) {
             try {
-                var patrimony = await _dbContext.Patrimony
+                var query = await _dbContext.Patrimony
                                           .Include(x => x.Investor)
                                           .Include(x => x.AssetXPatrimony)
                                           .ThenInclude(x => x.Asset)
@@ -26,9 +27,21 @@ namespace Toro.Repository {
                                           .AsNoTracking()
                                           .FirstOrDefaultAsync();
 
-                if (patrimony is null) {
-                    throw new Exception(returnMessage);
+                if (query is null) {
+                    throw new Exception(erromsg);
                 }
+
+                var assets = query.AssetXPatrimony
+                                  .Select(x => new { Symbol = x.AssetId, Amount = x.Amount, CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
+                                  .First().CurrentPrice })
+                                  .OrderBy(x => x.Symbol)
+                                  .ToList();
+
+                var patrimony = new {
+                    AccountAmount = query.AccountAmount,
+                    Assets = assets,
+                    TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince)
+                };
 
                 return new CommandResult(true, string.Empty, patrimony);
 
@@ -37,8 +50,29 @@ namespace Toro.Repository {
             }
         }
 
-        public Task<CommandResult> GetTrendsAsync() {
-            throw new NotImplementedException();
+        //TORO-004 - Eu, como investidor, gostaria de ter acesso a uma lista de 5 ações mais negociadas nos últimos 7 dias, com seus respectivos preços
+        public async Task<CommandResult> GetTrendsAsync() {
+            try {
+                var query = await _dbContext.AssetXPatrimony
+                                        .Include(x => x.Asset)
+                                        .Where(x => x.RegisteringDate > DateTime.Now.AddDays(-7))
+                                        .Select(x => x.Asset)                                     
+                                        .ToArrayAsync();
+
+                var trends = query.GroupBy(x => new { x.Id, x.CurrentPrice})
+                      .Select(x => new { symbol = x.Key.Id, price = x.Key.CurrentPrice, qt = x.Count() })
+                      .OrderByDescending(x => x.qt);
+
+
+                if (trends is null) {
+                    throw new Exception(noAssetinfo);
+                }
+
+                return new CommandResult(true, string.Empty, trends);
+
+            } catch (Exception ex) {
+                return new CommandResult(false, ex.Message, null);
+            }
         }
     }
 }

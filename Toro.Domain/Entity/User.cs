@@ -1,5 +1,5 @@
 ﻿namespace Toro.Domain.Entity {
-    public class User: To {
+    public class User: To<int> {
         public string Login { get; private set; }
         public string Password { get; private set; }
         public int InvestorId { get; set; }

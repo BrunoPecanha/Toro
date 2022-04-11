@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Toro.Domain.Entity {
-    public class Patrimony : To {
+    public class Patrimony : To<int> {
 
         public int InvestorId { get; private set; }
         public Investor Investor { get; private set; }

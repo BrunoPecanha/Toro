@@ -1,11 +1,11 @@
 ﻿using System;
 
 namespace Toro.Domain.Entity {
-    public class To {
+    public class To<T> {
         /// <summary>
         /// Id do registro
         /// </summary>       
-        public int Id { get; private set; }
+        public T Id { get; protected set; }
         /// <summary>
         /// Data de cadastro do registro.
         /// </summary>
