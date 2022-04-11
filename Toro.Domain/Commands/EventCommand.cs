@@ -6,6 +6,7 @@ namespace Toro.Domain.Commands {
     /// Command para depósitos ou compra de ações
     /// </summary>
     public class EventCommand {
+        public int InvestorId { get; set; }
         public string AssetId { get; set; }
         public int OriginBank { get; set; }
         public int OriginBranch { get; set; }

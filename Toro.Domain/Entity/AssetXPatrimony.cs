@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace Toro.Domain.Entity {
-    public class AssetXPatrimony {
+﻿namespace Toro.Domain.Entity {
+    public class AssetXPatrimony : To<int>{
         public int PatrimonyId { get; set; }
         public Patrimony Patrimony { get; set; }
         public string AssetId { get; set; }
         public Asset Asset { get; set; }
-        public int Amount { get; set; }
-        public DateTime RegisteringDate { get; private set; }
+        public int Amount { get; set; }        
 
         private AssetXPatrimony() {
         }
@@ -16,6 +13,10 @@ namespace Toro.Domain.Entity {
             PatrimonyId = patrimonyId;
             AssetId = assetId;
             Amount = amount;                
+        }
+
+        public void UpdateAmount(int amount) {
+            this.Amount += amount;        
         }
     }
 }

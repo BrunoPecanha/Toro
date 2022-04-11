@@ -23,6 +23,7 @@ namespace Toro.Api.Controllers {
         public async Task<IActionResult> Order([FromBody] EventDto dto) {
 
             var command = new EventCommand() {
+                InvestorId = Int32.Parse(dto.InvestorId),
                 Amount = Int32.Parse(dto.Amount),
                 AssetId = dto.AssetId,
                 Cpf = dto.Cpf,

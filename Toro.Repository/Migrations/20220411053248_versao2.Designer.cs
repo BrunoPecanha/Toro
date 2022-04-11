@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Toro.Repository.Context;
 
 namespace Toro.Repository.Migrations
 {
     [DbContext(typeof(ToroContext))]
-    partial class ToroContextModelSnapshot : ModelSnapshot
+    [Migration("20220411053248_versao2")]
+    partial class versao2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace Toro.Repository.Migrations
                     b.Property<decimal>("CurrentPrice")
                         .HasColumnType("TEXT")
                         .HasColumnName("CurrentPrice");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
@@ -52,10 +51,6 @@ namespace Toro.Repository.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER")
                         .HasColumnName("Amount");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastUpdate");
 
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
@@ -84,9 +79,6 @@ namespace Toro.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("Cpf");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
@@ -117,9 +109,6 @@ namespace Toro.Repository.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("InvestorId");
 
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("RegisteringDate");
@@ -140,9 +129,6 @@ namespace Toro.Repository.Migrations
                     b.Property<int>("InvestorId")
                         .HasColumnType("INTEGER")
                         .HasColumnName("InvestorId");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
                         .IsRequired()
