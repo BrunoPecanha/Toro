@@ -38,12 +38,10 @@ namespace Toro.Repository.Context {
         public override int SaveChanges() {
             foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("RegisteringDate") != null)) {
                 if (entry.State == EntityState.Added) {
-                    entry.Property("RegisteringDate").CurrentValue = DateTime.Now;
-                    entry.Property("LastUpdate").CurrentValue = DateTime.Now;
+                    entry.Property("RegisteringDate").CurrentValue = DateTime.Now;                   
                 } else if (entry.State == EntityState.Modified) {
                     entry.Property("RegisteringDate").IsModified = false;
-                    entry.Property("Id").IsModified = false;
-                    entry.Property("LastUpdate").CurrentValue = DateTime.Now;
+                    entry.Property("Id").IsModified = false;                    
                 }
             }
             return base.SaveChanges();

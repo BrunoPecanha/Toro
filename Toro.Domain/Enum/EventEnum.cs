@@ -1,6 +1,10 @@
-﻿namespace Toro.Domain.Enum {
+﻿using System.ComponentModel;
+
+namespace Toro.Domain.Enum {
     public enum EventEnum  {
+        [Description("Transfer")]
         Transfer = 0,
-        Other = 1
+        [Description("Buy")]
+        Buy = 1
     }
 }

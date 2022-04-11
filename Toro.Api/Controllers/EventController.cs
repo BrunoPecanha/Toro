@@ -1,30 +1,42 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Toro.Api.Dto;
+using Toro.Domain.Enum;
 using Toro.Domain;
 using Toro.Domain.Commands;
+using System;
 
 namespace Toro.Api.Controllers {
-    [Route("api/investor")]
+    [Route("event")]
     public class EventController : Controller {
-        private readonly IInvestorRepository _repository;
+        private readonly IEventService _service;
 
-        public EventController(IInvestorRepository repository) {
-            _repository = repository;
+        public EventController(IEventService service) {
+            _service = service;
         }
 
         /// <summary>
-        /// Endpoint para recuperação do saldo do investidor
+        /// Endpoint depósito de valores
         /// </summary>
-        /// TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
-        [HttpPost("userPosition")]
-        public async Task<IActionResult> Order([FromBody] EventCommand command) {
-            //var ret = await _repository.GetBalanceByIdAsync(id);
+        /// TORO-003 - Eu, como investidor, gostaria de poder depositar um valor na minha conta Toro, através de PiX ou TED bancária, para que eu possa realizar investimentos.
+        [HttpPost]
+        public async Task<IActionResult> Order([FromBody] EventDto dto) {
 
-            //if (ret.Valid)
-            //    return Ok(ret);
+            var command = new EventCommand() {
+                Amount = Int32.Parse(dto.Amount),
+                AssetId = dto.AssetId,
+                Cpf = dto.Cpf,
+                EventType = (EventEnum)Int32.Parse(dto.EventType),
+                OriginBank = Int32.Parse(dto.OriginBank),
+                OriginBranch = Int32.Parse(dto.OriginBranch)        
+            };
 
-          return BadRequest();
-        }      
+            var ret = await _service.Order(command);
 
+            if (ret.Valid)
+                return Ok(ret);
+
+            return BadRequest(ret);
+        }    
     }
 }
