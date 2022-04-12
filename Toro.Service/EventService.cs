@@ -19,7 +19,7 @@ namespace Toro.Service {
             _dbContext = dbContext;
         }
 
-        public async Task<CommandResult> Order(EventCommand command) {
+        public async Task<CommandResult> OrderAsync(EventCommand command) {
 
             try {
 
@@ -31,7 +31,7 @@ namespace Toro.Service {
 
                 if (command.EventType == EventEnum.Transfer) {
 
-                    if (investorPatrimony is null || investorPatrimony.Investor.Cpf != command.Cpf) {
+                    if (investorPatrimony is null || !investorPatrimony.Investor.IsCpfEqual(command.Cpf)) {
                         throw new Exception(noMatchingCpfInfo);
                     }
 

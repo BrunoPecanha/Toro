@@ -20,7 +20,7 @@ namespace Toro.Api.Controllers {
         /// </summary>
         /// TORO-003 - Eu, como investidor, gostaria de poder depositar um valor na minha conta Toro, através de PiX ou TED bancária, para que eu possa realizar investimentos.
         [HttpPost]
-        public async Task<IActionResult> Order([FromBody] EventDto dto) {
+        public async Task<IActionResult> OrderAsync([FromBody] EventDto dto) {
 
             var command = new EventCommand() {
                 InvestorId = Int32.Parse(dto.InvestorId),
@@ -32,7 +32,7 @@ namespace Toro.Api.Controllers {
                 OriginBranch = Int32.Parse(dto.OriginBranch)        
             };
 
-            var ret = await _service.Order(command);
+            var ret = await _service.OrderAsync(command);
 
             if (ret.Valid)
                 return Ok(ret);

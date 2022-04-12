@@ -15,5 +15,9 @@
             Account = account;
             Branch = branch;          
         }
+
+        public bool IsCpfEqual(string cpf) {
+            return this.Cpf.Equals(cpf);
+        }
     }
 }
