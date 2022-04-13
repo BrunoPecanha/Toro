@@ -4,9 +4,10 @@ using Microsoft.Extensions.Logging;
 using Toro.Domain.Entity;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Toro.Repository.Context {
-    public class ToroContext : DbContext, IToroContext {
+    public class ToroContext : IdentityDbContext, IToroContext {
         private static string connectionString;
         public ToroContext(DbContextOptions<ToroContext> options, IConfiguration configuration)
                 : base(options) {
@@ -20,6 +21,7 @@ namespace Toro.Repository.Context {
         public DbSet<Investor> Investor { get; set; }
         public DbSet<Patrimony> Patrimony { get; set; }
         public DbSet<AssetXPatrimony> AssetXPatrimony { get; set; }
+        public DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ToroContext).Assembly);

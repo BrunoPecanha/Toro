@@ -1,10 +1,12 @@
-using api.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Toro.Api.Options;
+using Toro.Domain.Entity;
 using Toro.Repository.Context;
 using Toro.Service.Extensions;
 
@@ -32,9 +34,12 @@ namespace api {
                         .AllowAnyHeader());
             });
 
-
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddDefaultIdentity<User>()
+                .AddEntityFrameworkStores<ToroContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +62,7 @@ namespace api {
 
             });
 
+            app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
 

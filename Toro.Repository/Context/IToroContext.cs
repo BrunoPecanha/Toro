@@ -7,6 +7,7 @@ namespace Toro.Repository.Context {
         DbSet<Patrimony> Patrimony { get; }
         DbSet<Asset> Asset { get; set; }
         DbSet<AssetXPatrimony> AssetXPatrimony { get; set; }
+        DbSet<User> User { get; set; }
         int SaveChanges();
     }
 }

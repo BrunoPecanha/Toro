@@ -1,9 +1,11 @@
-﻿namespace Toro.Domain.Entity {
+﻿using System;
+
+namespace Toro.Domain.Entity {
     public class Investor: To<int> {
         public string Cpf { get; private set; }
         public int Account { get; private set; }
         public int Branch { get; private set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
 
