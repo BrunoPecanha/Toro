@@ -1,15 +1,10 @@
-﻿namespace Toro.Domain.Entity {
-    public class User: To<int> {
-        public string Login { get; private set; }
-        public string Password { get; private set; }
-        public int InvestorId { get; set; }
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
-        private User() {                
-        }
-
-        public User(string login, string password) {           
-            Login = login;
-            Password = password;          
-        }
+namespace Toro.Domain.Entity {
+    public class User: IdentityUser<string> {
+        public string Cpf { get; set; }
+        public DateTime RegisteringDate { get; set; }
+        public DateTime LastUpdate { get; set; }
     }
 }

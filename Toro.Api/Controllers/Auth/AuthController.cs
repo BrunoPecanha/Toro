@@ -1,29 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using Toro.Domain;
+using Toro.Domain.Commands;
+using Toro.Domain.Entity;
 
 namespace ToroApi.Controllers.Auth {
     [Route("api/investor")]
     public class AuthController : Controller {
-        private readonly IInvestorRepository _repository;
+        private readonly IAuthService _service;
 
-        public AuthController(IInvestorRepository repository) {
-            _repository = repository;
+        public AuthController(IAuthService service) {
+            _service = service;
         }
 
         /// <summary>
-        /// Endpoint para recuperação do saldo do investidor
+        /// Endpoint de cadastro de usuário
         /// </summary>
-        /// TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
-        [HttpGet("login")]
-        public async Task<IActionResult> Login([FromBody] string user, string password) {
-            //var ret = await _repository.GetBalanceByIdAsync(id);
+        [HttpPost("register")]
+        public async Task<IActionResult> Create([FromBody] RegisterDto regDto) {
+            var command = new NewUserCommand() {              
+                Email = regDto.Email,
+                Cpf = regDto.Cpf,
+                Password = regDto.Password
+            };
 
-            //if (ret.Valid)
-            //    return Ok(ret);
+            var ret = await _service.Create(command);
 
-            //return BadRequest(ret);
-            return null;
+            //if (!ret.Succeeded)
+            //    return BadRequest(ret.Errors);
+            //else {
+            //    Investor investor = new Investor(regDto.Cpf);
+                
+            //}
+                
+
+            return Ok();
         }
     }
 }
