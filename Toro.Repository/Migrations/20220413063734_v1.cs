@@ -66,8 +66,8 @@ namespace Toro.Repository.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Cpf = table.Column<string>(type: "TEXT", nullable: true),
-                    InvestorId = table.Column<int>(type: "INTEGER", nullable: false),
                     RegisteringDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),

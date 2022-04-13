@@ -9,7 +9,7 @@ using Toro.Repository.Context;
 namespace Toro.Repository.Migrations
 {
     [DbContext(typeof(ToroContext))]
-    [Migration("20220413034154_v1")]
+    [Migration("20220413063734_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -349,8 +349,8 @@ namespace Toro.Repository.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("InvestorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");

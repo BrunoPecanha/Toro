@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 using Toro.Api.Options;
 using Toro.Domain.Entity;
 using Toro.Repository.Context;
@@ -26,8 +29,7 @@ namespace api {
             services.AddControllers();
             services.AddSwaggerGen();
 
-            services.AddCors(options =>
-            {
+            services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
@@ -40,6 +42,25 @@ namespace api {
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<ToroContext>()
                 .AddDefaultTokenProviders();
+
+            //JWT
+            var appsettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettingsOptions>(appsettingsSection);
+
+            var appSettings = appsettingsSection.Get<AppSettingsOptions>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication(x => {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(y => {
+
+                y.RequireHttpsMetadata = true;
+                y.SaveToken = true;
+                y.TokenValidationParameters = new TokenValidationParameters {
+
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

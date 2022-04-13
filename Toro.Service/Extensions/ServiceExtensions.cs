@@ -14,6 +14,7 @@ namespace Toro.Service.Extensions {
             //Entidadades
             services.AddTransient<IInvestorRepository, InvestorRepository>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IAuthService, AuthService>();
 
             return services;
         }

@@ -39,7 +39,7 @@ namespace Toro.Service {
                         throw new Exception(spbFailure);
                     }
 
-                    investorPatrimony.UpdateAmount(command.Amount);
+                    investorPatrimony.AccountAmount = command.Amount;
                     _dbContext.SaveChanges();
 
                     return new CommandResult(true, string.Empty, investorPatrimony);

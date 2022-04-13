@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Toro.Domain.Entity {
-    public class Investor: To<int> {
+    public class Investor: To<int> {     
         public string Cpf { get; private set; }
         public int Account { get; private set; }
         public int Branch { get; private set; }
@@ -12,10 +12,10 @@ namespace Toro.Domain.Entity {
         private Investor() {                 
         }
 
-        public Investor(string cpf, int account, int branch) {           
-            Cpf = cpf;
-            Account = account;
-            Branch = branch;          
+        public Investor(User user) {           
+            Cpf = user.Cpf;
+            Account = new Random().Next(1, 100000);
+            Branch = 0001;          
         }
 
         public bool IsCpfEqual(string cpf) {

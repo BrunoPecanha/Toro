@@ -9,38 +9,34 @@ using Toro.Domain.Entity;
 namespace ToroApi.Controllers.Auth {
     [Route("api/investor")]
     public class AuthController : Controller {
-        private readonly IInvestorRepository _repository;
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private const string sucessMsg = "Registrado com sucesso";
+        private readonly IAuthService _service;
 
-        public AuthController(IInvestorRepository repository, SignInManager<User> signInManager, UserManager<User> userManager) {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _repository = repository;
+        public AuthController(IAuthService service) {
+            _service = service;
         }
 
         /// <summary>
         /// Endpoint de cadastro de usuário
         /// </summary>
-        /// TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto regDto) {
-            var user = new User() {
-                UserName = regDto.Name,
+        public async Task<IActionResult> Create([FromBody] RegisterDto regDto) {
+            var command = new NewUserCommand() {              
                 Email = regDto.Email,
                 Cpf = regDto.Cpf,
-                EmailConfirmed = true,
-                Id = Guid.NewGuid().ToString(),
-                RegisteringDate = DateTime.Now
+                Password = regDto.Password
             };
 
-            var ret = await _userManager.CreateAsync(user, regDto.Password);
+            var ret = await _service.Create(command);
 
-            if (!ret.Succeeded)
-                return BadRequest(ret.Errors);
+            //if (!ret.Succeeded)
+            //    return BadRequest(ret.Errors);
+            //else {
+            //    Investor investor = new Investor(regDto.Cpf);
+                
+            //}
+                
 
-            return Ok(sucessMsg);
+            return Ok();
         }
     }
 }
