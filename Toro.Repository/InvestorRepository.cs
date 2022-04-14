@@ -34,7 +34,8 @@ namespace Toro.Repository {
 
                 var assets = query.AssetXPatrimony
                                   .Select(x => new { Symbol = x.AssetId, Amount = x.Amount, CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
-                                  .First().CurrentPrice })
+                                  .AsNoTracking()
+                                  .FirstOrDefault().CurrentPrice })
                                   .OrderBy(x => x.Symbol)                                 
                                   .ToList();
 
@@ -56,6 +57,7 @@ namespace Toro.Repository {
             try {
                 var query = await _dbContext.AssetXPatrimony
                                         .Include(x => x.Asset)
+                                        .AsNoTracking()
                                         .Where(x => x.LastUpdate > DateTime.Now.AddDays(-7))
                                         .Select(x => x.Asset)                                     
                                         .ToArrayAsync();
@@ -74,15 +76,6 @@ namespace Toro.Repository {
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
             }
-        }
-
-        public async Task<CommandResult> GetInvestorByCPF(string cpf) {
-            try {
-                var investor = _dbContext.Investor.Where(x => x.Cpf == cpf).FirstOrDefault();
-                return new CommandResult(true, string.Empty, investor);
-            } catch (Exception ex) {
-                return new CommandResult(false, ex.Message, null);
-            }
-        }
+        }      
     }
 }

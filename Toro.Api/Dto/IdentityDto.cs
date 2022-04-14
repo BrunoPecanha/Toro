@@ -12,7 +12,7 @@ namespace Toro.Domain.Commands {
         public string Password { get; set; }
     }
 
-    public class LoginCommand {
+    public class LoginDto {
         [Required(ErrorMessage = "Campo {0} é obrigatório.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Campo {0} é obrigatório.")]

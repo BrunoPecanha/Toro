@@ -30,5 +30,24 @@ namespace ToroApi.Controllers.Auth {
 
             return Ok(ret.Log);
         }
+
+
+        /// <summary>
+        /// Endpoint de login de usuário
+        /// </summary>
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto) {
+            var command = new NewUserCommand() {
+               Email = loginDto.Email,
+               Password = loginDto.Password
+            };
+
+            var ret = await _service.Create(command);
+
+            if (!ret.Valid)
+                return BadRequest(ret.Message);
+
+            return Ok(ret.Log);
+        }
     }
 }

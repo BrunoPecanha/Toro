@@ -4,5 +4,6 @@ using Toro.Domain.Commands;
 namespace Toro.Domain {
     public interface IAuthService {
         public Task<CommandResult> Create(NewUserCommand command);
+        public Task<CommandResult> Login(LoginCommand command);
     }
 }
