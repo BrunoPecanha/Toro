@@ -14,9 +14,5 @@
             AssetId = assetId;
             Amount = amount;                
         }
-
-        public void UpdateAmount(int amount) {
-            this.Amount += amount;        
-        }
     }
 }

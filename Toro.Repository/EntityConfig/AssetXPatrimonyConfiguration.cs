@@ -9,7 +9,7 @@ namespace Toro.Repository.EntityConfig {
 
             builder
              .ToTable("AssetXPatrimony")
-             .HasKey(x => new { x.PatrimonyId, x.AssetId, x.Id});
+             .HasKey(x =>  x.Id);
 
             builder
             .Property(c => c.Amount)

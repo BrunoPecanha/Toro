@@ -22,8 +22,15 @@ namespace Toro.Repository.EntityConfig {
             .HasColumnName("AccountAmount");
 
             builder
-             .Property(a => a.InvestorId)
-             .HasColumnName("InvestorId");
+                .HasOne(i => i.Investor)
+                .WithOne(p => p.Patrimony)
+                .HasForeignKey<Investor>(ad => ad.PatrimonyId);
+
+
+            builder
+              .HasOne<Investor>(i => i.Investor)
+              .WithOne(x => x.Patrimony)
+              .HasForeignKey<Patrimony>(ad => ad.InvestorId);
         }
     }
 }

@@ -15,5 +15,6 @@
         /// Liberar recursos não gerenciados.
         /// </summary>
         void Dispose();
+        public T GetById(int id);
     }
 }

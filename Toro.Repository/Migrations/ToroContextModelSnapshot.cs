@@ -215,6 +215,7 @@ namespace Toro.Repository.Migrations
             modelBuilder.Entity("Toro.Domain.Entity.Asset", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasColumnName("Symbol");
 
@@ -236,30 +237,33 @@ namespace Toro.Repository.Migrations
 
             modelBuilder.Entity("Toro.Domain.Entity.AssetXPatrimony", b =>
                 {
-                    b.Property<int>("PatrimonyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AssetId")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER")
                         .HasColumnName("Amount");
 
+                    b.Property<string>("AssetId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("TEXT")
                         .HasColumnName("LastUpdate");
+
+                    b.Property<int>("PatrimonyId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("RegisteringDate");
 
-                    b.HasKey("PatrimonyId", "AssetId", "Id");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssetId");
+
+                    b.HasIndex("PatrimonyId");
 
                     b.ToTable("AssetXPatrimony");
                 });
@@ -283,6 +287,9 @@ namespace Toro.Repository.Migrations
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PatrimonyId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("RegisteringDate")
                         .HasColumnType("TEXT")
@@ -310,8 +317,7 @@ namespace Toro.Repository.Migrations
                         .HasColumnName("AccountAmount");
 
                     b.Property<int>("InvestorId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("InvestorId");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("TEXT");
@@ -322,7 +328,8 @@ namespace Toro.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvestorId");
+                    b.HasIndex("InvestorId")
+                        .IsUnique();
 
                     b.ToTable("Patrimony");
                 });
@@ -443,9 +450,7 @@ namespace Toro.Repository.Migrations
                 {
                     b.HasOne("Toro.Domain.Entity.Asset", "Asset")
                         .WithMany("AssetXPatrimony")
-                        .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssetId");
 
                     b.HasOne("Toro.Domain.Entity.Patrimony", "Patrimony")
                         .WithMany("AssetXPatrimony")
@@ -461,7 +466,7 @@ namespace Toro.Repository.Migrations
             modelBuilder.Entity("Toro.Domain.Entity.Investor", b =>
                 {
                     b.HasOne("Toro.Domain.Entity.User", "User")
-                        .WithOne()
+                        .WithOne("Investor")
                         .HasForeignKey("Toro.Domain.Entity.Investor", "UserId");
 
                     b.Navigation("User");
@@ -470,8 +475,8 @@ namespace Toro.Repository.Migrations
             modelBuilder.Entity("Toro.Domain.Entity.Patrimony", b =>
                 {
                     b.HasOne("Toro.Domain.Entity.Investor", "Investor")
-                        .WithMany()
-                        .HasForeignKey("InvestorId")
+                        .WithOne("Patrimony")
+                        .HasForeignKey("Toro.Domain.Entity.Patrimony", "InvestorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -483,9 +488,19 @@ namespace Toro.Repository.Migrations
                     b.Navigation("AssetXPatrimony");
                 });
 
+            modelBuilder.Entity("Toro.Domain.Entity.Investor", b =>
+                {
+                    b.Navigation("Patrimony");
+                });
+
             modelBuilder.Entity("Toro.Domain.Entity.Patrimony", b =>
                 {
                     b.Navigation("AssetXPatrimony");
+                });
+
+            modelBuilder.Entity("Toro.Domain.Entity.User", b =>
+                {
+                    b.Navigation("Investor");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Toro.Domain;
 using Toro.Domain.Commands;
+using Toro.Domain.Entity;
 using Toro.Repository.Context;
 
 namespace Toro.Repository {
-    public class InvestorRepository : IInvestorRepository {
+    public class InvestorRepository : RepositoryBase<Investor>, IInvestorRepository {
         private readonly IToroContext _dbContext;
         private const string erromsg = "Não foi encontrado nenhum patrimonio para o investidor informado";
         private const string noAssetinfo = "Não houveram transações nos últimos 7 dias";
@@ -23,7 +24,7 @@ namespace Toro.Repository {
                                           .Include(x => x.Investor)
                                           .Include(x => x.AssetXPatrimony)
                                           .ThenInclude(x => x.Asset)
-                                          .Where(x => x.InvestorId == investorId)
+                                          .Where(x => x.Investor.Id == investorId)
                                           .AsNoTracking()
                                           .FirstOrDefaultAsync();
 
@@ -39,7 +40,7 @@ namespace Toro.Repository {
 
                 var patrimony = new {
                     AccountAmount = query.AccountAmount,
-                    Assets = assets.Distinct(),
+                    Assets = assets,
                     TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince * x.Amount)
                 };
 
@@ -70,6 +71,15 @@ namespace Toro.Repository {
 
                 return new CommandResult(true, string.Empty, trends);
 
+            } catch (Exception ex) {
+                return new CommandResult(false, ex.Message, null);
+            }
+        }
+
+        public async Task<CommandResult> GetInvestorByCPF(string cpf) {
+            try {
+                var investor = _dbContext.Investor.Where(x => x.Cpf == cpf).FirstOrDefault();
+                return new CommandResult(true, string.Empty, investor);
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
             }
