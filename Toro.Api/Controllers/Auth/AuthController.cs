@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Toro.Domain;
 using Toro.Domain.Commands;
-using Toro.Domain.Entity;
 
 namespace ToroApi.Controllers.Auth {
     [Route("api/investor")]
@@ -20,7 +17,7 @@ namespace ToroApi.Controllers.Auth {
         /// </summary>
         [HttpPost("register")]
         public async Task<IActionResult> Create([FromBody] RegisterDto regDto) {
-            var command = new NewUserCommand() {              
+            var command = new NewUserCommand() {
                 Email = regDto.Email,
                 Cpf = regDto.Cpf,
                 Password = regDto.Password
@@ -28,15 +25,10 @@ namespace ToroApi.Controllers.Auth {
 
             var ret = await _service.Create(command);
 
-            //if (!ret.Succeeded)
-            //    return BadRequest(ret.Errors);
-            //else {
-            //    Investor investor = new Investor(regDto.Cpf);
-                
-            //}
-                
+            if (!ret.Valid)
+                return BadRequest(ret.Message);
 
-            return Ok();
+            return Ok(ret.Log);
         }
     }
 }
