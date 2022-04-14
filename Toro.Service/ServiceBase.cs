@@ -36,5 +36,13 @@ namespace Toro.Service {
         public void Update(T obj) {
             _repository.Update(obj);
         }
+
+        /// <summary>
+        /// Recupera um determinado objeto.
+        /// </summary>
+        /// <param name="obj">Objeto.</param>
+        public T GetById(int id) {
+            return _repository.GetById(id);
+        }
     }
 }

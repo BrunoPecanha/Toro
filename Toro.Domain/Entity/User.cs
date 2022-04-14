@@ -6,5 +6,6 @@ namespace Toro.Domain.Entity {
         public string Cpf { get; set; }
         public DateTime RegisteringDate { get; set; }
         public DateTime LastUpdate { get; set; }
+        public Investor Investor { get; set; }
     }
 }

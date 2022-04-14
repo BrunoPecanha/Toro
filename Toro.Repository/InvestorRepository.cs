@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Toro.Domain;
 using Toro.Domain.Commands;
+using Toro.Domain.Entity;
 using Toro.Repository.Context;
 
 namespace Toro.Repository {
-    public class InvestorRepository : IInvestorRepository {
+    public class InvestorRepository : RepositoryBase<Investor>, IInvestorRepository {
         private readonly IToroContext _dbContext;
         private const string erromsg = "Não foi encontrado nenhum patrimonio para o investidor informado";
         private const string noAssetinfo = "Não houveram transações nos últimos 7 dias";
@@ -23,7 +24,7 @@ namespace Toro.Repository {
                                           .Include(x => x.Investor)
                                           .Include(x => x.AssetXPatrimony)
                                           .ThenInclude(x => x.Asset)
-                                          .Where(x => x.InvestorId == investorId)
+                                          .Where(x => x.Investor.Id == investorId)
                                           .AsNoTracking()
                                           .FirstOrDefaultAsync();
 
@@ -33,13 +34,14 @@ namespace Toro.Repository {
 
                 var assets = query.AssetXPatrimony
                                   .Select(x => new { Symbol = x.AssetId, Amount = x.Amount, CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
-                                  .First().CurrentPrice })
+                                  .AsNoTracking()
+                                  .FirstOrDefault().CurrentPrice })
                                   .OrderBy(x => x.Symbol)                                 
                                   .ToList();
 
                 var patrimony = new {
                     AccountAmount = query.AccountAmount,
-                    Assets = assets.Distinct(),
+                    Assets = assets,
                     TotalAmount = query.AccountAmount + assets.Sum(x => x.CurrentPrince * x.Amount)
                 };
 
@@ -55,6 +57,7 @@ namespace Toro.Repository {
             try {
                 var query = await _dbContext.AssetXPatrimony
                                         .Include(x => x.Asset)
+                                        .AsNoTracking()
                                         .Where(x => x.LastUpdate > DateTime.Now.AddDays(-7))
                                         .Select(x => x.Asset)                                     
                                         .ToArrayAsync();
@@ -73,6 +76,6 @@ namespace Toro.Repository {
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
             }
-        }
+        }      
     }
 }

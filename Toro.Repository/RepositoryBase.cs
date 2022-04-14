@@ -25,6 +25,9 @@ namespace Toro.Repository {
             Db.Entry(obj).State = EntityState.Modified;
             Db.SaveChanges();
         }
+        public T GetById(int id) {
+            return Db.Set<T>().Find(id);
+        }
     }
 }
 

@@ -11,7 +11,7 @@ namespace Toro.Domain.Commands {
         public int OriginBank { get; set; }
         public int OriginBranch { get; set; }
         public string Cpf { get; set; }
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
         public EventEnum EventType { get; set; }        
     }
 }

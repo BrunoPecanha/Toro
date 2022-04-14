@@ -7,24 +7,24 @@ namespace Toro.Repository.EntityConfig {
 
         public void Configure(EntityTypeBuilder<Investor> builder) {
 
-            builder
+        builder
              .ToTable("Investor")
              .HasKey(x => x.Id);
 
-            builder
+        builder
             .Property(c => c.RegisteringDate)
             .HasColumnName("RegisteringDate")
             .IsRequired();
 
-            builder
+        builder
            .Property(c => c.Cpf)
            .HasColumnName("Cpf")
-           .IsRequired();
+           .IsRequired();         
 
-            builder
-            .HasOne(s => s.User)
-            .WithOne()
-            .HasForeignKey<Investor>(ad => ad.UserId);
+        builder
+            .HasOne<User>(i => i.User)
+            .WithOne(x => x.Investor)
+            .HasForeignKey<Investor>(ad => ad.UserId);              
         }
     }
 }

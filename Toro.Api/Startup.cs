@@ -58,7 +58,12 @@ namespace api {
                 y.RequireHttpsMetadata = true;
                 y.SaveToken = true;
                 y.TokenValidationParameters = new TokenValidationParameters {
-
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true, 
+                    ValidateAudience = true,
+                    ValidAudience = appSettings.ValidIn,
+                    ValidIssuer = appSettings.Issuer
                 };
             });
         }
