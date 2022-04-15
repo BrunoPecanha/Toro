@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommandResult } from './model/commands/commandResult';
+import { EventService } from './service/event.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ToroApp';
+
+  public trends: CommandResult = new CommandResult;
+
+  constructor(eventService: EventService){    
+    eventService.getTrends();
+    
+  }
 }
