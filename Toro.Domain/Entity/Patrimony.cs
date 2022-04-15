@@ -21,5 +21,15 @@ namespace Toro.Domain.Entity {
         public void UpdateAmount(decimal amount) {
             this.AccountAmount = amount;
         }
+
+        public bool IsThereBalanceForPurchase(decimal purchaseValue) {
+            if (AccountAmount >= purchaseValue) {
+                this.AccountAmount -= purchaseValue;
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

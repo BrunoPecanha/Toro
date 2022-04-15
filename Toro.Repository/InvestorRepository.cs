@@ -33,11 +33,16 @@ namespace Toro.Repository {
                 }
 
                 var assets = query.AssetXPatrimony
-                                  .Select(x => new { Symbol = x.AssetId, Amount = x.Amount, CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
-                                  .AsNoTracking()
-                                  .FirstOrDefault().CurrentPrice })
-                                  .OrderBy(x => x.Symbol)                                 
+                                  .Select(x => new {
+                                      Symbol = x.AssetId,
+                                      Amount = x.Amount,
+                                      OperationDate = x.RegisteringDate,
+                                      CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
+                                  .FirstOrDefault().CurrentPrice
+                                  })
+                                  .OrderBy(x => x.Symbol)
                                   .ToList();
+                                 
 
                 var patrimony = new {
                     AccountAmount = query.AccountAmount,
