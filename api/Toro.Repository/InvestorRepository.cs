@@ -64,8 +64,11 @@ namespace Toro.Repository {
                                         .Include(x => x.Asset)
                                         .AsNoTracking()
                                         .Where(x => x.LastUpdate > DateTime.Now.AddDays(-7))
-                                        .Select(x => x.Asset)                                     
+                                        .Select(x => x.Asset)                                      
+                                        .Take(5)
                                         .ToArrayAsync();
+                                        
+                                        
 
                 var trends = query.GroupBy(x => new { x.Id, x.CurrentPrice})
                       .Select(x => new { symbol = x.Key.Id, price = x.Key.CurrentPrice, qt = x.Count() })
