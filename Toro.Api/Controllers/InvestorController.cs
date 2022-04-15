@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Toro.Domain;
 
 namespace Toro.Api.Controllers {
+    //[Authorize]
     [Route("investor")]
     public class InvestorController : Controller {
         private readonly IInvestorRepository _repository;

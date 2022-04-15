@@ -14,7 +14,7 @@ namespace Toro.Domain.Entity {
         }
 
         public Investor(User user) {
-            User = user;
+            UserId = user.Id;
             Cpf = user.Cpf;
             Account = new Random().Next(1, 100000);
             Branch = 0001;
@@ -22,11 +22,6 @@ namespace Toro.Domain.Entity {
 
         public bool IsCpfEqual(string cpf) {
             return this.Cpf.Equals(cpf);
-        }
-
-        public void AssociatePatrimony(Patrimony patrimony) {
-            this.Patrimony = patrimony;
-            this.PatrimonyId = patrimony.Id;
-        }
+        }       
     }
 }

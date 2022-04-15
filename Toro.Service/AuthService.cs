@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Toro.Domain;
 using Toro.Domain.Commands;
@@ -9,12 +10,14 @@ namespace Toro.Service {
     public class AuthService : IAuthService {
         private readonly IInvestorRepository _repositoryInvestor;
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private const string sucessMsg = "Registrado com sucesso";
         private const string msgUserOrPassInvalid = "Login ou senha inválidos";
 
-        public AuthService(IInvestorRepository repositoryInvestor, SignInManager<User> signInManager) {
+        public AuthService(IInvestorRepository repositoryInvestor, SignInManager<User> signInManager, UserManager<User> userManager) {
             _repositoryInvestor = repositoryInvestor;
-            _signInManager = signInManager;        
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -32,10 +35,13 @@ namespace Toro.Service {
                     Id = Guid.NewGuid().ToString(),
                     RegisteringDate = DateTime.Now
                 };
-                _repositoryInvestor.Add(new Investor(user));
+
+                var result = await _userManager.CreateAsync(user, command.Password);
+                if (!result.Succeeded)
+                    throw new Exception(string.Join(", ", result.Errors.Select(x => x.Description).ToArray()));
 
                 return new CommandResult(true, sucessMsg, null);
-            } catch (Exception ex) {
+            } catch (Exception ex) {                
                 return new CommandResult(false, ex.Message, null);
             }
         }
