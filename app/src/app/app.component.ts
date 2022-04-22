@@ -14,6 +14,7 @@ export class AppComponent {
 
   constructor(eventService: EventService){    
     eventService.getTrends();
+    eventService.getUserPosition(5);
     
   }
 }
