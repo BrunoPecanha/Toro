@@ -1,4 +1,4 @@
-export class EventCommand {
+interface EventCommand {
    investorId: number;
    assetId: string;
    originBank: number;

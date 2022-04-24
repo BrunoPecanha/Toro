@@ -40,7 +40,7 @@ namespace Toro.Service {
                 if (!result.Succeeded)
                     throw new Exception(string.Join(", ", result.Errors.Select(x => x.Description).ToArray()));
 
-                return new CommandResult(true, sucessMsg, null);
+                return new CommandResult(true, sucessMsg, result);
             } catch (Exception ex) {                
                 return new CommandResult(false, ex.Message, null);
             }

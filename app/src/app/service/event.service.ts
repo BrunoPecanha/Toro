@@ -1,51 +1,38 @@
-import { Injectable, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Asset } from '../model/asset';
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { CommandResult } from '../model/commands/commandResult';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventService implements OnInit {
+export class EventService {
 
-  registros: Asset[] = [];
+  constructor(private http: HttpClient) {   
+  }
   
-  constructor(private http: HttpClient) {     
-    
-  }
-
-  ngOnInit(): void {
-    this.getTrends();
-    
-  }
-
   protected url(param: string = ""): string {
-    return `${environment.api_url}/investor/${param}`;
+    return `${environment.api_url}/event/${param}`;
   }
 
-  async getTrends()  {
-      try {
-        this.http.get<CommandResult>(this.url())
-        .toPromise().then(x =>console.log(x))
+  async orderAsync(eventDto = {
+    investorId: 0,
+    assetId: "VALE2",
+    originBank: 0,
+    originBranch: 0,
+    cpf: '13676616766',
+    amount: 0,
+    eventType: 0    
+    }): Promise<any> {
+    try {
+      await this.http.post<CommandResult>(this.url(), eventDto)
+      .toPromise();
+    } catch (error) {
+        if (Array.isArray(error)) {
+            throw error
+        } else {
+          throw error
       }
-      catch (error) {
-        console.error(error);
-        throw error;
-    }  
-  }
-
-  async getUserPosition(id: number)  {
-    debugger
-      try {
-        this.http.get<CommandResult>(this.url(`userPosition?id=${id}`))
-        .toPromise().then(x =>console.log(x))
-      }
-      catch (error) {
-        console.error(error);
-        throw error;
-    }  
+    }
   }
 }
-

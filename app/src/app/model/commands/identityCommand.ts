@@ -1,11 +1,11 @@
-export class RegisterCommand {    
+interface  RegisterCommand {    
     name: number;  
     cpf: string;
     email: string;
     password : string;
  }
 
- export class LoginCommand {    
+ interface  LoginCommand {    
     email: string;
     password: string;
  }

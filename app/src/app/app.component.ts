@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { CommandResult } from './model/commands/commandResult';
-import { EventService } from './service/event.service';
+import { InvestorService } from './service/investor.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,11 @@ import { EventService } from './service/event.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ToroApp';
+  title = 'ToroApp';  
 
-  public trends: CommandResult = new CommandResult;
-
-  constructor(eventService: EventService){    
-    eventService.getTrends();
-    eventService.getUserPosition(5);
+  constructor(eventService: InvestorService){    
+    eventService.getTrendsAsync();
+    eventService.getUserPositionAsync(5);
     
   }
 }
