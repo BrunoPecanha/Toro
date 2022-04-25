@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CommandResult } from 'src/app/model/commands/commandResult';
 import { environment } from 'src/environments/environment';
-import { CommandResult } from '../model/commands/commandResult';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class EventService {
   }
   
   protected url(param: string = ""): string {
-    return `${environment.api_url}/event/${param}`;
+    return `${environment.api_url}/register/${param}`;
   }
 
   async orderAsync(eventDto = {

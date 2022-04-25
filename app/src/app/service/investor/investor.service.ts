@@ -1,8 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Asset } from '../model/asset';
-import { CommandResult } from '../model/commands/commandResult';
+import { CommandResult } from 'src/app/model/commands/commandResult';
+import { Asset } from 'src/app/model/asset';
+
+
 
 
 

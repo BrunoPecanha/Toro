@@ -12,7 +12,7 @@ using Toro.Domain.Commands;
 using Toro.Domain.Entity;
 
 namespace ToroApi.Controllers.Auth {
-    [Route("api/investor")]
+    [Route("investor")]
     public class AuthController : Controller {
         private readonly IAuthService _service;
         private readonly AppSettingsOptions _appSettingsOptions;
@@ -56,8 +56,9 @@ namespace ToroApi.Controllers.Auth {
             if (!ret.Valid)
                 return BadRequest(ret.Message);
 
-
-            return Ok(await BuildJWT(loginDto.Email));
+            var jwt = await BuildJWT(loginDto.Email);
+            return Ok(new CommandResult(true, string.Empty, new { user = ret.Data, token = jwt}));
+              
         }
 
         private async Task<string> BuildJWT(string email) {

@@ -1,0 +1,297 @@
+<router-outlet></router-outlet>
+    <!-- Wrapper da página -->
+    <div id="wrapper">
+        <!-- Wrapper do conteúdo -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Conteúdo principal -->
+            <div id="content">
+                <!-- Barra superior -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <div class="logo"><img src="../assets/img/logo_principal_toro.png" class="logo"></div>
+                   
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Menu do usuário -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bruno Peçanha</span>
+                                <img class="img-profile rounded-circle"
+                                    src="../assets/img/profile.svg">
+                            </a>
+                            <!-- Dropdown - Sair -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#depositModal">
+                                    Depositar
+                                </a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalLogout">
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Fim da barra superior -->
+
+                <!-- Início do conteúdo da página -->
+                <div class="container-fluid">
+                    <!-- Linha do resuno -->
+                    <div class="row">
+                        <!-- Card do saldo -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Saldo</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$ 40,00</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Card do patrimônio -->
+                         <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Valores Investidos</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$ 563,00</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card do patrimônio -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Patrimônio</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$ 215,00</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Fim do contéudo do resumo -->
+
+                    <div class="row col-lg-12">
+                        <!-- Área dos ativos -->
+                        <div class="col-lg-12 mb-4">
+                            <!-- Mantém alinhamento dos containers -->
+                            <div class="container-fluid mb-4">
+                            <!-- Cabeçalho da área de ativos -->
+                            <h1 class="h3  mb-2 text-gray-800 pb-4">Área do Investidor</h1>             
+                            <!-- Tabela de investimentos -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Seus Ativos</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome Ativo</th>
+                                                    <th>R$ Valor</th>
+                                                    <th>Quantidade</th>
+                                                    <th>R$ Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Nome Ativo</th>
+                                                    <th>R$ Valor</th>
+                                                    <th>Quantidade</th>
+                                                    <th>R$ Total</th>                     
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr>
+                                                    <td>VALE 2</td>
+                                                    <td>32,00</td>
+                                                    <td>2</td>
+                                                    <td>64,00</td>                                         
+                                                </tr>
+                                                <tr>
+                                                    <td>PTR4</td>
+                                                    <td>40,00</td>
+                                                    <td>2</td>
+                                                    <td>80,00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BRADESCO</td>
+                                                    <td>39,00</td>
+                                                    <td>5</td>
+                                                    <td>78,00</td>
+                                                </tr>
+                                                                                   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fim do conteúdo principal -->
+             
+                    <div class="col-lg-12 mb-4">
+                    <!-- Área dos ativos mais negociados -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Ativos mais negociados nos últimos 7 dias</h6>
+                                    </div>
+                                <div class="card-body">
+                                <!-- Área dos ativos mais negociados -->
+                                <div class="row">
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-primary text-white shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-primary">PTR4
+                                                    <div class="text-white-50 small">R$ 40,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-success text-white shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-sucess">VALE2
+                                                    <div class="text-white-50 small">R$ 35,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-info text-info shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-info">APPLE
+                                                    <div class="text-white-50 small">R$ 26,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-warning text-white shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-white ">BRADESCO
+                                                    <div class="text-white-50 small">R$ 18,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-danger text-white shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-danger ">CAIXA
+                                                    <div class="text-white-50 small">R$ 20,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card btn bg-secondary text-white shadow">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-secondary">CAIXA
+                                                    <div class="text-white-50 small">R$ 20,00</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim da área da tabela de investimentos -->
+
+            <!-- Rodapé -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Todos os direitos reservados &copy; <br>Toro Investimentos 2022</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Fim do rodapé -->
+        </div>        
+    </div>
+    <!-- Fim do wrapper principal -->
+
+    <!-- Modal de Logout-->
+    <div class="modal fade" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogoutLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLogoutLabel">Sair</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Deseja realmente sair?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" (click)="logout()">Confirmar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Depósito -->
+    <div class="modal fade bd-example-modal-sm" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="depositModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="depositModal">Depósito de Valores</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                   <div class="col-8">
+                    <label  class="col-form-label ">Código do Banco:</label>
+                    <input type="text" class="form-control" id="bank-code">
+                   </div>
+                   <div class="col-4">
+                    <label  class="col-form-label ">Agência:</label>
+                    <input type="text" class="form-control" id="bank-code">
+                   </div>
+                   <div class="col-12">
+                    <label  class="col-form-label ">CPF:</label>
+                    <input type="text" class="form-control" id="bank-code">
+                   </div>
+                   <div class="col-12">
+                    <label  class="col-form-label ">Código Autorização:</label>
+                    <input type="text" class="form-control" id="bank-code">
+                   </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary">Confirmar</button>
+            </div>
+          </div>
+        </div>
+      </div>
