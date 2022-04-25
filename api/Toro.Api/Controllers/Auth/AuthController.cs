@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,20 +11,18 @@ using Toro.Domain;
 using Toro.Domain.Commands;
 using Toro.Domain.Entity;
 
-namespace ToroApi.Controllers.Auth {  
+namespace ToroApi.Controllers.Auth {
     [Route("api/investor")]
     public class AuthController : Controller {
         private readonly IAuthService _service;
         private readonly AppSettingsOptions _appSettingsOptions;
         private readonly UserManager<User> _userManager;
 
-      
         public AuthController(IAuthService service, IOptions<AppSettingsOptions> appSettings, UserManager<User> userManager) {
             _service = service;
             _appSettingsOptions = appSettings.Value;
             _userManager = userManager;
         }
-
         /// <summary>
         /// Endpoint de cadastro de usuário
         /// </summary>
@@ -42,10 +39,8 @@ namespace ToroApi.Controllers.Auth {
             if (!ret.Valid)
                 return BadRequest(ret.Message);
 
-            return Ok();
+            return Ok(ret);
         }
-
-
         /// <summary>
         /// Endpoint de login de usuário
         /// </summary>
@@ -64,7 +59,6 @@ namespace ToroApi.Controllers.Auth {
 
             return Ok(await BuildJWT(loginDto.Email));
         }
-
 
         private async Task<string> BuildJWT(string email) {
 

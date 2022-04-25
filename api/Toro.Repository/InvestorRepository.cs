@@ -75,7 +75,7 @@ namespace Toro.Repository {
                       .OrderByDescending(x => x.qt);
 
 
-                if (trends is null) {
+                if (trends is null || trends.Count() < 1) {
                     throw new Exception(noAssetinfo);
                 }
 
