@@ -10,8 +10,8 @@ export class AppComponent {
   title = 'ToroApp';  
 
   constructor(eventService: InvestorService){    
-    eventService.getTrendsAsync();
-    eventService.getUserPositionAsync(5);
+    // eventService.getTrendsAsync();
+    // eventService.getUserPositionAsync(5);
     
   }
 }
