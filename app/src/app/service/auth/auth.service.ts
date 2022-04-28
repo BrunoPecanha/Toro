@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {  map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -20,12 +21,22 @@ export class AuthService {
   }
 
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(this.url('login'), {
-      email,
-      password
-    }, this.httpOptions);
-  }
+  async login(email: string, password: string): Promise<any> {
+    try {
+      return await this.http.post<{ data: any, valid: boolean, message: string }>(this.url('login'), {email, password}, this.httpOptions)
+        .pipe(map(x => {
+          return {
+            message: x.message,
+            valid: x.valid,
+            data: x.data
+          }
+        })).toPromise();         
+    } catch (error) {
+      throw error;
+   
+    }
+  }    
+
 
   create(cpf: string, email: string, password: string): Observable<any> {
     return this.http.post(this.url('register'), {

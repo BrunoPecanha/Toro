@@ -45,7 +45,7 @@ namespace ToroApi.Controllers.Auth {
         /// Endpoint de login de usuário
         /// </summary>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto) {
+        public async Task<IActionResult> LoginA([FromBody] LoginDto loginDto) {
             var command = new LoginCommand() {
                 Email = loginDto.Email,
                 Password = loginDto.Password
@@ -57,7 +57,7 @@ namespace ToroApi.Controllers.Auth {
                 return BadRequest(ret.Message);
 
             var jwt = await BuildJWT(loginDto.Email);
-            return Ok(new CommandResult(true, string.Empty, new { user = ret.Data, token = jwt}));
+            return Ok(new CommandResult(true, jwt, ret.Data));
               
         }
 

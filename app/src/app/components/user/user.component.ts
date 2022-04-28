@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth/auth.service';
-import { TokenStorageService } from '../service/auth/token-storage.service';
+import { DialogService } from 'src/app/helpers/dialog-service';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { TokenStorageService } from 'src/app/service/auth/token-storage.service';
+
 
 @Component({
   selector: 'app-user',
@@ -18,12 +20,12 @@ export class UserComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-
   isLoggedIn = false;
   isLoginFailed = false;
-  roles: string[] = [];
+  userObject: any;
+  
 
-  constructor(private _authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { 
+  constructor(private dialog: DialogService, private _authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { 
   }
 
   ngOnInit(): void {    
@@ -38,7 +40,7 @@ export class UserComponent implements OnInit {
         () => {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
-          window.alert('Usuário cadastrado com sucesso');
+          this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
           this.reloadPage();
         },
         err => {
@@ -49,21 +51,22 @@ export class UserComponent implements OnInit {
       );
   }
 
-  login(): void {    
-    this._authService.login(this.email, this.password).subscribe(
-      data => {
-        this.tokenStorage.saveToken(data.token);
-        this.tokenStorage.saveUser(data.user);
+ async loginAsync() {    
+  try {    
+        await this._authService.login(this.email, this.password).then(data => {
+             sessionStorage.setItem('user', JSON.stringify(data));
+            this.tokenStorage.saveToken(data.token);
+            this.tokenStorage.saveUser(data.user);
+        });     
+    
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.reloadPage();
-      },
-      err => {        
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
+      } catch (error: any) {
+        debugger
+        this.dialog.showErr('Atenção', error.error);      
       }
-    );
-  }
+}
 
   reloadPage(): void {
     window.location.reload();

@@ -161,56 +161,11 @@
                                 <div class="card-body">
                                 <!-- Área dos ativos mais negociados -->
                                 <div class="row">
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-primary text-white shadow">
+                                    <div *ngFor="let asset of topAssets" class="col-lg-6 mb-4">
+                                        <div class="card btn btn-success text-white shadow">
                                             <div class="card-body">
-                                                <button type="button" class="btn btn-primary">PTR4
-                                                    <div class="text-white-50 small">R$ 40,00</div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-success text-white shadow">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-sucess">VALE2
-                                                    <div class="text-white-50 small">R$ 35,00</div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-info text-info shadow">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-info">APPLE
-                                                    <div class="text-white-50 small">R$ 26,00</div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-warning text-white shadow">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-white ">BRADESCO
-                                                    <div class="text-white-50 small">R$ 18,00</div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-danger text-white shadow">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-danger ">CAIXA
-                                                    <div class="text-white-50 small">R$ 20,00</div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mb-4">
-                                        <div class="card btn bg-secondary text-white shadow">
-                                            <div class="card-body">
-                                                <button type="button" class="btn btn-secondary">CAIXA
-                                                    <div class="text-white-50 small">R$ 20,00</div>
+                                                <button type="button" class="btn ">{{asset.symbol}}
+                                                    <div class="small">R$ {{ asset.price }}</div>
                                                 </button>
                                             </div>
                                         </div>

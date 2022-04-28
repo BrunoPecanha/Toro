@@ -1,11 +1,11 @@
 export class CommandResult {
-    _valid: Boolean;
-    _message: string;
-    _data: any;
+    valid: boolean;
+    message: string;
+    data: any;
 
     constructor(valid: boolean, message: string, data: any) {
-        this._valid = valid;
-        this._message = message;
-        this._data = data;
+        this.valid = valid;
+        this.message = message;
+        this.data = data;
     }
 }

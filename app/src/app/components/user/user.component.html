@@ -5,7 +5,7 @@
             <form
                 *ngIf="!isSuccessful"
                 name="form"
-                (ngSubmit)="f.form.valid && login()"
+                (ngSubmit)="f.form.valid && loginAsync()"
                 #f="ngForm"
                 novalidate
             >
@@ -16,7 +16,7 @@
                     <input type="password" id="password" name="password" [(ngModel)]="password" class="form-control" placeholder="Senha" value="" />
                 </div>
                 <div class="form-group alig">
-                    <input type="submit" class="btnSubmit" (click)="login()"  value="Acessar" />
+                    <input type="submit" class="btnSubmit" (click)="loginAsync()"  value="Acessar" />
                 </div>
             </form>
         </div>

@@ -1,46 +1,44 @@
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CommandResult } from 'src/app/model/commands/commandResult';
 import { Asset } from 'src/app/model/asset';
-
-
-
+import {  map } from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvestorService implements OnInit {
-
-  registros: Asset[] = [];
   
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.getTrendsAsync();
-    
+    this.getTrendsAsync();    
   }
 
   protected url(param: string = ""): string {
-    return `${environment.api_url}/event/${param}`;
+    return `${environment.api_url}/investor/${param}`;
   }
 
-  async getTrendsAsync()  {
+  async getTrendsAsync(): Promise<{ data: Array<Asset>, valid: boolean, message: string }> {
       try {
-        this.http.get<CommandResult>(this.url())
-        .toPromise().then(x =>console.log(x))
-      }
-      catch (error) {
-        console.error(error);
+        return await this.http.get<{ data: Array<Asset>, valid: boolean, message: string }>(this.url())
+          .pipe(map(x => {
+            return {
+              message: x.message,
+              valid: x.valid,
+              data: x.data
+            }
+          })).toPromise();         
+      } catch (error) {
         throw error;
-    }  
-  }
-
+      }
+    }
+  
   async getUserPositionAsync(id: number)  {    
       try {
-        this.http.get<CommandResult>(this.url(`userPosition?id=${id}`))
-        .toPromise().then(x =>console.log(x))
+        this.http.get<any>(this.url(`userPosition?id=${id}`))
+        .toPromise();
       }
       catch (error) {
         console.error(error);
@@ -48,4 +46,3 @@ export class InvestorService implements OnInit {
     }  
   }
 }
-

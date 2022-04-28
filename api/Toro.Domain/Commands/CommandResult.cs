@@ -1,9 +1,9 @@
 ﻿namespace Toro.Domain.Commands {
     public class CommandResult {
 
-        public CommandResult(bool valid, string messege, object data) {
+        public CommandResult(bool valid, string message, object data) {
             this.Valid = valid;
-            this.Message = messege;
+            this.Message = message;
             this.Data = data;
         }
         /// Indica se a operação foi validada
