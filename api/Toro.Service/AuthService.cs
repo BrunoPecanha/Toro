@@ -58,7 +58,8 @@ namespace Toro.Service {
                 if (!ret.Succeeded) {
                     throw new Exception(msgUserOrPassInvalid);
                 }
-                return new CommandResult(true, sucessMsg, null);
+                var user = _userManager.FindByEmailAsync(command.Email);
+                return new CommandResult(true, sucessMsg, new { id = user.Result.Id, name = user.Result.UserName });
 
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);

@@ -1,12 +1,12 @@
 export class Asset {
-    public id: string;  
-    public currentPrince: number;  
+    public symbol: string;  
+    public price: number;  
     public qt: number;
  
     
-    constructor(id: string, currentPrince: number, qt: number){
-        this.id = id;
-        this.currentPrince  = currentPrince;
+    constructor(symbol: string, price: number, qt: number){
+        this.symbol = symbol;
+        this.price  = price;
         this.qt = qt;
     }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InvestorService } from './service/investor.service';
+import { TokenStorageService } from './service/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,24 @@ import { InvestorService } from './service/investor.service';
 export class AppComponent {
   title = 'ToroApp';  
 
-  constructor(eventService: InvestorService){    
-    // eventService.getTrendsAsync();
-    // eventService.getUserPositionAsync(5);
-    
+  private roles: string[] = [];
+  isLoggedIn = false;
+  showAdminBoard = false;
+
+  username?: string;
+
+  constructor(private tokenStorageService: TokenStorageService) { }
+
+  ngOnInit(): void {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.username = user.username;
+    }
+  }
+
+  logout(): void {
+    this.tokenStorageService.signOut();
+    window.location.reload();
   }
 }
