@@ -59,7 +59,7 @@ namespace Toro.Service {
                     }
 
                     investorPatrimony.UpdateAmount(command.Amount);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
 
                     return new CommandResult(true, amountDepositedSucessed, investorPatrimony);
 
@@ -72,7 +72,7 @@ namespace Toro.Service {
                         throw new Exception(noEnoughCash);
                 }
 
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
 
                 return new CommandResult(true, sucessedBought, null);
             } catch (Exception ex) {

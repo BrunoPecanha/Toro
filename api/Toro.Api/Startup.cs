@@ -12,6 +12,8 @@ using Toro.Api.Options;
 using Toro.Domain.Entity;
 using Toro.Repository.Context;
 using Toro.Service.Extensions;
+using System;
+using Microsoft.OpenApi.Models;
 
 namespace api {
     public class Startup {
@@ -27,7 +29,29 @@ namespace api {
             services.AddDbContext<ToroContext>(options => options.UseSqlite(dbConnectionString));
             services.RegisterServices(Configuration.GetConnectionString(dbConnectionString));
             services.AddControllers();
-            services.AddSwaggerGen();
+
+            services.AddSwaggerGen(setup => {              
+                var jwtSecurityScheme = new OpenApiSecurityScheme {
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Name = "Autenticação JWT",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Description = "Insira **_SOMENTE_** o token, não precisa de 'bearer'!",
+
+                    Reference = new OpenApiReference {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { 
+                        jwtSecurityScheme, Array.Empty<string>() }
+                    });
+                 });
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
@@ -60,7 +84,7 @@ namespace api {
                 y.TokenValidationParameters = new TokenValidationParameters {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true, 
+                    ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidAudience = appSettings.ValidIn,
                     ValidIssuer = appSettings.Issuer

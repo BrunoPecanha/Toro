@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Toro.Domain.Entity;
 
 namespace Toro.Repository.Context {
@@ -8,6 +9,6 @@ namespace Toro.Repository.Context {
         DbSet<Asset> Asset { get; set; }
         DbSet<AssetXPatrimony> AssetXPatrimony { get; set; }
         DbSet<User> User { get; set; }
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

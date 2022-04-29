@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DialogService } from 'src/app/helpers/dialog-service';
 import { AuthService } from 'src/app/service/auth/auth.service';
@@ -24,12 +25,24 @@ export class UserComponent implements OnInit {
   isLoginFailed = false;
   userObject: any;
   data: any;
-  
-  
+  signInForm: FormGroup;
+  signUpForm: FormGroup;
 
-  constructor(private dialog: DialogService, private _authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { 
+  constructor(private dialog: DialogService, private _authService: AuthService, private tokenStorage: TokenStorageService, 
+    private router: Router, private si: FormBuilder, private su: FormBuilder) {
+
+      this.signInForm = this.si.group({
+          email: ['', Validators.required ],
+          password: ['', Validators.required ]
+      });
+
+      this.signUpForm = this.su.group({
+        cpf: ['', Validators.required ],
+        rEmail: ['', Validators.required ],
+        rPassword: ['', Validators.required ]
+    });
   }
-
+  
   ngOnInit(): void {    
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
@@ -39,7 +52,7 @@ export class UserComponent implements OnInit {
 
   async registerAsync() {  
       try {    
-        const result = await this._authService.create(this.rCpf, this.rEmail, this.rPassword);
+        await this._authService.create(this.rCpf, this.rEmail, this.rPassword);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
@@ -51,7 +64,7 @@ export class UserComponent implements OnInit {
 }
 
 
- async loginAsync() {    
+ async loginAsync() {  
   try {    
         const result = await this._authService.login(this.email, this.password);
         this.tokenStorage.saveToken(result.message);
