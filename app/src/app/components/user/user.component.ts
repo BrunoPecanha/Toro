@@ -23,6 +23,7 @@ export class UserComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   userObject: any;
+  data: any;
   
 
   constructor(private dialog: DialogService, private _authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { 
@@ -53,17 +54,16 @@ export class UserComponent implements OnInit {
 
  async loginAsync() {    
   try {    
-        await this._authService.login(this.email, this.password).then(data => {
-             sessionStorage.setItem('user', JSON.stringify(data));
-            this.tokenStorage.saveToken(data.token);
-            this.tokenStorage.saveUser(data.user);
-        });     
+        const result = await this._authService.login(this.email, this.password);
+        debugger
+        this.tokenStorage.saveToken(result.message);
+        this.tokenStorage.saveUser(result.data);
     
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.reloadPage();
-      } catch (error: any) {
-        debugger
+
+      } catch (error: any) {        
         this.dialog.showErr('Atenção', error.error);      
       }
 }

@@ -110,25 +110,25 @@
                                             <thead>
                                                 <tr>
                                                     <th>Nome Ativo</th>
-                                                    <th>R$ Valor</th>
+                                                    <th>Valor</th>
                                                     <th>Quantidade</th>
-                                                    <th>R$ Total</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>Nome Ativo</th>
-                                                    <th>R$ Valor</th>
+                                                    <th>Valor</th>
                                                     <th>Quantidade</th>
-                                                    <th>R$ Total</th>                     
+                                                    <th>Total</th>                     
                                                 </tr>
                                             </tfoot>
                                             <tbody>
                                                 <tr *ngFor="let asset of patrimony.assets">
                                                     <td>{{asset.symbol}}</td>
                                                     <td>{{asset.currentPrince | currency }}</td>
-                                                    <td>{{asset.amount}}</td>
-                                                    <td>{{asset.currentPrince * asset.amount}}</td>                                         
+                                                    <td>{{asset.amount | currency}}</td>
+                                                    <td>{{asset.currentPrince * asset.amount | currency}}</td>                                         
                                                 </tr>                              
                                             </tbody>
                                         </table> 

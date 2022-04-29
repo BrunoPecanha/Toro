@@ -12,7 +12,7 @@ using Toro.Domain.Commands;
 using Toro.Domain.Entity;
 
 namespace ToroApi.Controllers.Auth {
-    [Route("investor")]
+    [Route("auth")]
     public class AuthController : Controller {
         private readonly IAuthService _service;
         private readonly AppSettingsOptions _appSettingsOptions;

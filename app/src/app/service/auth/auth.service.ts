@@ -17,7 +17,7 @@ export class AuthService {
   }  
   
   protected url(param: string = ""): string {
-    return `${environment.api_url}/investor/${param}`;
+    return `${environment.api_url}/auth/${param}`;
   }
 
 
@@ -33,7 +33,6 @@ export class AuthService {
         })).toPromise();         
     } catch (error) {
       throw error;
-   
     }
   }    
 

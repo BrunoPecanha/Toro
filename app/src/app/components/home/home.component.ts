@@ -19,8 +19,9 @@ export class HomeComponent implements OnInit {
   patrimony: Patrimony = { accountAmount: 0, totalAmount: 0, assets: null};
   isLoggedIn = false;
 
-  constructor(private eventService: EventService, private dialog: DialogService, private investorService: InvestorService, private tokenStorage: TokenStorageService, private router: Router){    
-  }
+  constructor(private eventService: EventService, private dialog: DialogService, 
+    private investorService: InvestorService, private tokenStorage: TokenStorageService, 
+    private router: Router){}
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
