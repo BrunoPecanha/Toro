@@ -18,7 +18,7 @@ namespace Toro.Api.Controllers {
         /// </summary>
         /// TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
         [HttpGet("userPosition")]
-        public async Task<IActionResult> GetBalanceByIdAsync([FromQuery] int id) {
+        public async Task<IActionResult> GetBalanceByIdAsync([FromQuery] string id) {
             var ret = await _repository.GetBalanceByIdAsync(id);
 
             if (ret.Valid)

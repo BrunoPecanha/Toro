@@ -12,19 +12,26 @@ namespace Toro.Repository {
         private readonly IToroContext _dbContext;
         private const string erromsg = "Não foi encontrado nenhum ativo na sua carteira de investimentos";
         private const string noAssetinfo = "Não houveram transações nos últimos 7 dias";
+        private const string naoHaAtivos = "Não há dados de investidor para esse perfil.";
 
         public InvestorRepository(IToroContext dbContext) {
             _dbContext = dbContext;
         }
 
         //TORO-002 - Eu, como investidor, gostaria de visualizar meu saldo, meus investimentos e meu patrimônio total na Toro.
-        public async Task<CommandResult> GetBalanceByIdAsync(int investorId) {
+        public async Task<CommandResult> GetBalanceByIdAsync(string userId) {
             try {
+
+                var investor = await this.GetInvestorByUser(userId);
+
+                if (investor is null)
+                    return new CommandResult(true, naoHaAtivos, null);
+
                 var query = await _dbContext.Patrimony
                                           .Include(x => x.Investor)
                                           .Include(x => x.AssetXPatrimony)
                                           .ThenInclude(x => x.Asset)
-                                          .Where(x => x.Investor.Id == investorId)
+                                          .Where(x => x.Investor.Id == investor.Id)
                                           .AsNoTracking()
                                           .FirstOrDefaultAsync();
 
@@ -85,5 +92,11 @@ namespace Toro.Repository {
                 return new CommandResult(false, ex.Message, null);
             }
         }      
+
+        public async Task<Investor> GetInvestorByUser(string id) {
+            return await _dbContext.Investor
+                                        .Include(x => x.User)
+                                        .FirstOrDefaultAsync(x => x.UserId.Equals(id));
+        }
     }
 }

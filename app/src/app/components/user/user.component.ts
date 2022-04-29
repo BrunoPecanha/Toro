@@ -25,6 +25,7 @@ export class UserComponent implements OnInit {
   userObject: any;
   data: any;
   
+  
 
   constructor(private dialog: DialogService, private _authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { 
   }
@@ -36,41 +37,34 @@ export class UserComponent implements OnInit {
     }    
   }
 
-  register(): void {      
-      this._authService.create(this.rCpf, this.rEmail, this.rPassword).subscribe(
-        () => {
-          this.isSuccessful = true;
-          this.isSignUpFailed = false;
-          this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
-          this.reloadPage();
-        },
-        err => {
-          window.alert(err.error);
-          this.errorMessage = err.error;
-          this.isSignUpFailed = true;
-        }
-      );
-  }
+  async registerAsync() {  
+      try {    
+        const result = await this._authService.create(this.rCpf, this.rEmail, this.rPassword);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
+        this.dialog.reloadPage();
+      } catch (error: any) {        
+        this.dialog.showErr('Atenção', error.error);   
+        this.isSignUpFailed = true;   
+      }
+}
+
 
  async loginAsync() {    
   try {    
         const result = await this._authService.login(this.email, this.password);
-        debugger
         this.tokenStorage.saveToken(result.message);
         this.tokenStorage.saveUser(result.data);
     
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.reloadPage();
+        this.dialog.reloadPage();
 
       } catch (error: any) {        
         this.dialog.showErr('Atenção', error.error);      
       }
-}
-
-  reloadPage(): void {
-    window.location.reload();
-  }
+  }  
 }
 
 

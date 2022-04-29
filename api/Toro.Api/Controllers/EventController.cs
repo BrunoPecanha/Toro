@@ -10,9 +10,11 @@ namespace Toro.Api.Controllers {
     [Route("event")]
     public class EventController : Controller {
         private readonly IEventService _service;
+        private readonly IInvestorRepository _repository;
 
-        public EventController(IEventService service) {
+        public EventController(IEventService service, IInvestorRepository repository) {
             _service = service;
+            _repository = repository;
         }
 
         /// <summary>
@@ -22,24 +24,37 @@ namespace Toro.Api.Controllers {
         [HttpPost]
         public async Task<IActionResult> OrderAsync([FromBody] EventDto dto) {
             if (!dto.IsValid()) {
-                return BadRequest(dto.ErroMessage);
+                return BadRequest(new {
+                    message = dto.ErroMessage,
+                    valid = false
+                });
             }
-            var command = new EventCommand() {
-                InvestorId = dto.InvestorId,
-                Amount = dto.Amount,
-                AssetId = dto.AssetId,
-                Cpf = dto.Cpf,
-                EventType = (EventEnum)dto.EventType,
-                OriginBank = dto.OriginBank,
-                OriginBranch = dto.OriginBranch
-            };
 
-            var ret = await _service.OrderAsync(command);
+            var investor = await _repository.GetInvestorByUser(dto.UserId);
 
-            if (ret.Valid)
-                return Ok(ret);
+            if (investor is null && (EventEnum)dto.EventType == EventEnum.Buy) {
+                return BadRequest(new {
+                    message = "Usuário ainda não possível perfil de investidor. Faça o primeiro depósito para que seu perfil seja criado.",
+                    valid = false
+                });
+            } else {
+                var command = new EventCommand() {
+                    InvestorId = investor is null ? 0 : investor.Id,
+                    Amount = dto.Amount,
+                    AssetId = dto.AssetId,
+                    Cpf = dto.Cpf,
+                    EventType = (EventEnum)dto.EventType,
+                    OriginBank = dto.OriginBank,
+                    OriginBranch = dto.OriginBranch
+                };
 
-            return BadRequest(ret);
-        }    
+                var ret = await _service.OrderAsync(command);
+
+                if (ret.Valid)
+                    return Ok(ret);
+
+                return BadRequest(ret);
+            }
+        }
     }
 }

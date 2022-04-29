@@ -15,6 +15,10 @@ export class DialogService {
       confirmButtonText: 'OK'
     });
   }
+
+  reloadPage(): void {
+    window.location.reload();
+  }
  
   async showErr(title: string, message: string): Promise<void> {
     await Swal.fire({

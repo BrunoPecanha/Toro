@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   totalInvested: number = 0;
   patrimony: Patrimony = { accountAmount: 0, totalAmount: 0, assets: null};
   isLoggedIn = false;
+  user: any;
+  asset: any;
 
   constructor(private eventService: EventService, private dialog: DialogService, 
     private investorService: InvestorService, private tokenStorage: TokenStorageService, 
@@ -28,7 +30,8 @@ export class HomeComponent implements OnInit {
       this.isLoggedIn = true;
       this.router.navigate(['home'])
       this.getTrendsAsync();
-      this.getUserPositionAsync(5);
+      this.user = this.tokenStorage.getUser();
+      this.getUserPositionAsync(this.user.id);
     }
     else
       this.router.navigate(['login'])    
@@ -49,7 +52,7 @@ export class HomeComponent implements OnInit {
       this.patrimony = result.data;     
       
       if (!result.data)
-        this.dialog.info(result.message);
+        this.dialog.info('Atenção', result.message);
       
     } catch (error) {
       this.dialog.showErr('Erro', 'Ocorre um erro ao tentar carregar as informações da carteira do usuário.');      
@@ -58,57 +61,85 @@ export class HomeComponent implements OnInit {
 
   async assetPurshaseOrderAsync(): Promise<void> {
     try {
+
+      let qtd = (document.getElementById('qtd') as HTMLInputElement).value;
+      if (!qtd || qtd == '0') {
+        this.dialog.info('Atenção', "Quantidade não pode ser menor que 1")
+        return;
+      }
+
       const result = await this.eventService
       .orderAsync(
             {
-              investorId: 0,
-              assetId: "VALE2",
-              originBank: 0,
-              originBranch: 0,
-              cpf: '13676616766',
-              amount: 0,
+              userId: this.user.id,
+              assetId: this.asset,            
+              amount: qtd,
+              eventType: 1
+            }
+      );
+
+       if (result.valid){
+        await this.dialog.showAlert('Sucesso', result.message);
+        this.dialog.reloadPage();
+       }       
+
+    } catch (error: any) {
+      this.dialog.info('Atenção', error.error.message);      
+    }
+  }
+
+  async depositOrderAsync(): Promise<void> {    
+    try {
+      let bankCode = (document.getElementById('bankCode') as HTMLInputElement).value;
+      let agency = (document.getElementById('agency') as HTMLInputElement).value;
+      let cpf = (document.getElementById('cpf') as HTMLInputElement).value;
+      let authCode = (document.getElementById('authCode') as HTMLInputElement).value;
+      let amount = (document.getElementById('amount') as HTMLInputElement).value;
+
+
+      if (this.isValid(bankCode, agency, cpf, authCode, amount))
+      {
+        this.dialog.info('Atenção', "Todas as informações devem ser preenchidas corretamente para o depósito")
+        return;
+      }
+      
+      const result = await this.eventService
+      .orderAsync(
+            {
+              userId: this.user.id,
+              amount: amount,  
+              cpf: cpf,       
+              originBank: bankCode,
+              originBranch: agency,              
               eventType: 0
             }
-      );
-      this.patrimony = result.data;     
-      
-      if (!result.data)
-        this.dialog.info(result.message);
-
-    } catch (error) {
-      this.dialog.showErr('Erro', 'Ocorre um erro ao tentar carregar as informações da carteira do usuário.');      
+      );            
+      if (result.valid){
+        await this.dialog.showAlert('Sucesso', result.message);
+        this.dialog.reloadPage();
+       }    
+    } catch (error: any) {
+      this.dialog.info('Atenção', error.error.message);      
     }
   }
 
-  async depositOrderAsync(): Promise<void> {
-    try {
-      const result = await this.eventService
-      .orderAsync(
-            {
-              // investorId: number;
-              // assetId: string;
-              // originBank: number;
-              // originBranch: number
-              // cpf: string;
-              // amount: number
-              // eventType: number; 
-            }
-      );
-      this.patrimony = result.data;     
-      
-      if (!result.data)
-        this.dialog.info(result.message)
-      else {
-
-      }
-    } catch (error) {
-      this.dialog.showErr('Erro', 'Ocorre um erro ao tentar carregar as informações da carteira do usuário.');      
+  async logout() {    
+    if (await this.dialog.confirm('Sair', 'Deseja realmente sair?')){
+      this.tokenStorage.signOut();
+      window.location.reload();
     }
   }
 
-  logout(): void {    
-    this.tokenStorage.signOut();
-    window.location.reload();
+  public getAssetSelected(asset: string) {
+    this.asset = asset;
+  }
+
+  private isValid(bankCode: string,agency: string,  cpf: string, authCode: string, amount: string){
+    return ((!bankCode || bankCode == '0') || 
+          (!agency || agency == '0') ||
+          (!cpf || cpf == '0') ||
+          (!authCode || authCode == '0') ||
+          (!amount || amount == '0'));
   }
 }
 
