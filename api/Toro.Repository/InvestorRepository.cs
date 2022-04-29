@@ -10,7 +10,7 @@ using Toro.Repository.Context;
 namespace Toro.Repository {
     public class InvestorRepository : RepositoryBase<Investor>, IInvestorRepository {
         private readonly IToroContext _dbContext;
-        private const string erromsg = "Não foi encontrado nenhum patrimonio para o investidor informado";
+        private const string erromsg = "Não foi encontrado nenhum ativo na sua carteira de investimentos";
         private const string noAssetinfo = "Não houveram transações nos últimos 7 dias";
 
         public InvestorRepository(IToroContext dbContext) {
@@ -29,7 +29,7 @@ namespace Toro.Repository {
                                           .FirstOrDefaultAsync();
 
                 if (query is null) {
-                    throw new Exception(erromsg);
+                    return new CommandResult(true, erromsg, null);
                 }
 
                 var assets = query.AssetXPatrimony
