@@ -35,14 +35,18 @@ export class InvestorService implements OnInit {
       }
     }
   
-  async getUserPositionAsync(id: number)  {    
-      try {
-        this.http.get<any>(this.url(`userPosition?id=${id}`))
-        .toPromise();
-      }
-      catch (error) {
-        console.error(error);
-        throw error;
-    }  
+  async getUserPositionAsync(id: number) : Promise<{ data: any, valid: boolean, message: string }> {
+    try {
+      return await this.http.get<{ data: Array<Asset>, valid: boolean, message: string }>(this.url(`userPosition?id=${id}`))
+        .pipe(map(x => {
+          return {
+            message: x.message,
+            valid: x.valid,
+            data: x.data
+          }
+        })).toPromise();         
+    } catch (error) {
+      throw error;
+    }
   }
 }

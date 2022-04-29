@@ -15,15 +15,7 @@ export class EventService {
     return `${environment.api_url}/register/${param}`;
   }
 
-  async orderAsync(eventDto = {
-    investorId: 0,
-    assetId: "VALE2",
-    originBank: 0,
-    originBranch: 0,
-    cpf: '13676616766',
-    amount: 0,
-    eventType: 0    
-    }): Promise<any> {
+  async orderAsync(eventDto: any): Promise<any> {
     try {
       await this.http.post<CommandResult>(this.url(), eventDto)
       .toPromise();
