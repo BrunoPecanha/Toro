@@ -112,6 +112,7 @@
                                                     <th>Nome Ativo</th>
                                                     <th>Valor</th>
                                                     <th>Quantidade</th>
+                                                    <th>Data da Compra</th>
                                                     <th>Total</th>
                                                 </tr>
                                             </thead>
@@ -120,6 +121,7 @@
                                                     <th>Nome Ativo</th>
                                                     <th>Valor</th>
                                                     <th>Quantidade</th>
+                                                    <th>Data da Compra</th>
                                                     <th>Total</th>                     
                                                 </tr>
                                             </tfoot>
@@ -128,6 +130,7 @@
                                                     <td>{{asset.symbol}}</td>
                                                     <td>{{asset.currentPrince | currency }}</td>
                                                     <td>{{asset.amount}}</td>
+                                                    <td>{{asset.operationDate | date: 'dd/MM/yyyy' }}</td>
                                                     <td>{{asset.currentPrince * asset.amount | currency}}</td>                                         
                                                 </tr>                              
                                             </tbody>
