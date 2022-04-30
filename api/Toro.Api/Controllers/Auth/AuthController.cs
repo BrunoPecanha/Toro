@@ -14,11 +14,11 @@ using Toro.Domain.Entity;
 namespace ToroApi.Controllers.Auth {
     [Route("auth")]
     public class AuthController : Controller {
-        private readonly IAuthService _service;
+        private readonly IUserService _service;
         private readonly AppSettingsOptions _appSettingsOptions;
         private readonly UserManager<User> _userManager;
 
-        public AuthController(IAuthService service, IOptions<AppSettingsOptions> appSettings, UserManager<User> userManager) {
+        public AuthController(IUserService service, IOptions<AppSettingsOptions> appSettings, UserManager<User> userManager) {
             _service = service;
             _appSettingsOptions = appSettings.Value;
             _userManager = userManager;

@@ -7,5 +7,6 @@ namespace Toro.Domain {
         Task<CommandResult> GetBalanceByIdAsync(string userId);
         Task<CommandResult> GetTrendsAsync();
         Task<Investor> GetInvestorByUser(string id);
+        Task<bool> IsCpfAlreadyRegistered(string cpf);
     }
 }

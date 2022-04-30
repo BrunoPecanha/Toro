@@ -7,14 +7,15 @@ using Toro.Domain.Commands;
 using Toro.Domain.Entity;
 
 namespace Toro.Service {
-    public class AuthService : IAuthService {
+    public class UserService : IUserService {
         private readonly IInvestorRepository _repositoryInvestor;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private const string sucessMsg = "Registrado com sucesso";
+        private const string msgSucessMsg = "Registrado com sucesso";
         private const string msgUserOrPassInvalid = "Login ou senha inválidos";
+        private const string msgCpfAlreadyRegistered = "Este cpf já se encontra cadastrado";
 
-        public AuthService(IInvestorRepository repositoryInvestor, SignInManager<User> signInManager, UserManager<User> userManager) {
+        public UserService(IInvestorRepository repositoryInvestor, SignInManager<User> signInManager, UserManager<User> userManager) {
             _repositoryInvestor = repositoryInvestor;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -27,21 +28,25 @@ namespace Toro.Service {
         /// <returns></returns>
         public async Task<CommandResult> Create(NewUserCommand command) {
             try {
-                var user = new User() {
-                    UserName = command.Email,
-                    Email = command.Email,
-                    Cpf = command.Cpf,
-                    EmailConfirmed = true,
-                    Id = Guid.NewGuid().ToString(),
-                    RegisteringDate = DateTime.Now
-                };
 
-                var result = await _userManager.CreateAsync(user, command.Password);
-                if (!result.Succeeded)
-                    throw new Exception(string.Join(", ", result.Errors.Select(x => x.Description).ToArray()));
+                if (!await _repositoryInvestor.IsCpfAlreadyRegistered(command.Cpf)) {
+                    var user = new User() {
+                        UserName = command.Email,
+                        Email = command.Email,
+                        Cpf = command.Cpf,
+                        EmailConfirmed = true,
+                        Id = Guid.NewGuid().ToString(),
+                        RegisteringDate = DateTime.Now
+                    };
 
-                return new CommandResult(true, sucessMsg, result);
-            } catch (Exception ex) {                
+                    var result = await _userManager.CreateAsync(user, command.Password);
+                    if (!result.Succeeded)
+                        throw new Exception(string.Join(", ", result.Errors.Select(x => x.Description).ToArray()));
+
+                    return new CommandResult(true, msgSucessMsg, result);
+                }
+                return new CommandResult(false, msgCpfAlreadyRegistered, null);
+            } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
             }
         }
@@ -59,7 +64,7 @@ namespace Toro.Service {
                     throw new Exception(msgUserOrPassInvalid);
                 }
                 var user = _userManager.FindByEmailAsync(command.Email);
-                return new CommandResult(true, sucessMsg, new { id = user.Result.Id, name = user.Result.UserName });
+                return new CommandResult(true, msgSucessMsg, new { id = user.Result.Id, name = user.Result.UserName });
 
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
