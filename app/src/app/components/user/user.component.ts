@@ -63,8 +63,7 @@ export class UserComponent implements OnInit {
       }
 }
 
-
- async loginAsync() {  
+async loginAsync() {  
   try {    
         const result = await this._authService.login(this.email, this.password);
         this.tokenStorage.saveToken(result.message);

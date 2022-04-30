@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
       this.getUserPositionAsync(this.user.id);
     }
     else
-      this.router.navigate(['login'])    
+      this.router.navigate(['login']);
   }
 
   async getTrendsAsync(): Promise<void> {
@@ -54,8 +54,12 @@ export class HomeComponent implements OnInit {
       if (!result.data)
         this.dialog.info('Atenção', result.message);
       
-    } catch (error) {
-      this.dialog.showErr('Erro', 'Ocorre um erro ao tentar carregar as informações da carteira do usuário.');      
+    } catch (error: any) {      
+      await this.dialog.showErr('Erro', 'Ocorre um erro ao tentar carregar as informações da carteira do usuário.');      
+      if (error.status == '401'){
+        this.tokenStorage.signOut();
+        this.router.navigate(['login']);
+      }        
     }
   }
 

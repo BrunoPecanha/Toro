@@ -220,32 +220,32 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <div class="modal fade bd-example-modal-sm" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="purchaseModal">Compra de Ativo - {{ asset }}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                   <div class="col-6">
-                        <label  class="col-form-label">Quantidade:</label>
-                        <input type="text" id="qtd" class="form-control">
-                   </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" (click)="assetPurshaseOrderAsync()">Comprar</button>
-            </div>
-          </div>
+    <div class="modal fade bd-example-modal-sm" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="purchaseModal">Compra de Ativo - {{ asset }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-      </div>
+        <div class="modal-body">
+            <form>
+            <div class="form-group">
+                <div class="col-6">
+                    <label  class="col-form-label">Quantidade:</label>
+                    <input type="text" id="qtd" class="form-control">
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="assetPurshaseOrderAsync()">Comprar</button>
+        </div>
+        </div>
+    </div>
+    </div>
 

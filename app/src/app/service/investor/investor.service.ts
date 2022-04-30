@@ -45,7 +45,7 @@ export class InvestorService implements OnInit {
             data: x.data
           }
         })).toPromise();         
-    } catch (error) {
+    } catch (error) {      
       throw error;
     }
   }

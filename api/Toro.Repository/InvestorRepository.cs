@@ -39,14 +39,14 @@ namespace Toro.Repository {
                     return new CommandResult(true, erromsg, null);
                 }
 
-                var assets = query.AssetXPatrimony
+                var assets = query.AssetXPatrimony                                  
                                   .Select(x => new {
                                       Symbol = x.AssetId,
                                       Amount = x.Amount,
                                       OperationDate = x.RegisteringDate,
                                       CurrentPrince = _dbContext.Asset.Where(y => x.AssetId == y.Id)
                                   .FirstOrDefault().CurrentPrice
-                                  })
+                                  })                                  
                                   .OrderBy(x => x.Symbol)
                                   .ToList();
                                  
