@@ -19,7 +19,7 @@ namespace Toro.Domain.Entity {
         }
 
         public void UpdateAmount(decimal amount) {
-            this.AccountAmount = amount;
+            this.AccountAmount += amount;
         }
 
         public bool IsThereBalanceForPurchase(decimal purchaseValue) {

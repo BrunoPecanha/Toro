@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CommandResult } from 'src/app/model/commands/commandResult';
+import {  map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,19 +12,21 @@ export class EventService {
   }
   
   protected url(param: string = ""): string {
-    return `${environment.api_url}/register/${param}`;
+    return `${environment.api_url}/event/${param}`;
   }
 
-  async orderAsync(eventDto: any): Promise<any> {
+  async orderAsync(eventDto: any): Promise<{ data: any, valid: boolean, message: string }> {    
     try {
-      await this.http.post<CommandResult>(this.url(), eventDto)
-      .toPromise();
+      return await this.http.post<{ data: any, valid: boolean, message: string }>(this.url(), eventDto)
+      .pipe(map(x => {
+        return {
+          message: x.message,
+          valid: x.valid,
+          data: x.data
+        }
+        })).toPromise();         
     } catch (error) {
-        if (Array.isArray(error)) {
-            throw error
-        } else {
-          throw error
-      }
+      throw error;
     }
-  }
+  } 
 }

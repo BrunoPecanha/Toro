@@ -14,7 +14,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bruno Peçanha</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="../assets/img/profile.svg">
                             </a>
@@ -24,7 +24,7 @@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#depositModal">
                                     Depositar
                                 </a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalLogout">
+                                <a class="dropdown-item"  href="#" data-toggle="modal" (click)="logout()">
                                     Sair
                                 </a>
                             </div>
@@ -110,17 +110,17 @@
                                             <thead>
                                                 <tr>
                                                     <th>Nome Ativo</th>
-                                                    <th>R$ Valor</th>
+                                                    <th>Valor</th>
                                                     <th>Quantidade</th>
-                                                    <th>R$ Total</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>Nome Ativo</th>
-                                                    <th>R$ Valor</th>
+                                                    <th>Valor</th>
                                                     <th>Quantidade</th>
-                                                    <th>R$ Total</th>                     
+                                                    <th>Total</th>                     
                                                 </tr>
                                             </tfoot>
                                             <tbody>
@@ -128,7 +128,7 @@
                                                     <td>{{asset.symbol}}</td>
                                                     <td>{{asset.currentPrince | currency }}</td>
                                                     <td>{{asset.amount}}</td>
-                                                    <td>{{asset.currentPrince * asset.amount}}</td>                                         
+                                                    <td>{{asset.currentPrince * asset.amount | currency}}</td>                                         
                                                 </tr>                              
                                             </tbody>
                                         </table> 
@@ -149,10 +149,10 @@
                                 <!-- Área dos ativos mais negociados -->
                                 <div class="row">
                                     <div *ngFor="let asset of topAssets" class="col-lg-6 mb-4">
-                                        <div class="card btn btn-success text-white shadow">
+                                        <div class="card btn btn-warning text-white shadow" href="#" data-toggle="modal" data-target="#purchaseModal" (click)="getAssetSelected(asset.symbol)" >
                                             <div class="card-body">
-                                                <button type="button" class="btn ">{{asset.symbol}}
-                                                    <div class="small">R$ {{ asset.price }}</div>
+                                                <button type="button" class="btn">{{asset.symbol}}
+                                                    <div class="small">{{ asset.price | currency }}</div>
                                                 </button>
                                             </div>
                                         </div>
@@ -178,26 +178,6 @@
     </div>
     <!-- Fim do wrapper principal -->
 
-    <!-- Modal de Logout-->
-    <div class="modal fade" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogoutLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLogoutLabel">Sair</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Deseja realmente sair?</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" (click)="logout()">Confirmar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Depósito -->
     <div class="modal fade bd-example-modal-sm" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="depositModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -213,27 +193,59 @@
                 <div class="form-group">
                    <div class="col-8">
                     <label  class="col-form-label ">Código do Banco:</label>
-                    <input type="text" class="form-control" id="bank-code">
+                    <input type="text" class="form-control" id="bankCode">
                    </div>
                    <div class="col-4">
                     <label  class="col-form-label ">Agência:</label>
-                    <input type="text" class="form-control" id="bank-code">
+                    <input type="text" class="form-control" id="agency">
                    </div>
                    <div class="col-12">
                     <label  class="col-form-label ">CPF:</label>
-                    <input type="text" class="form-control" id="bank-code">
+                    <input type="text" class="form-control" id="cpf">
                    </div>
                    <div class="col-12">
                     <label  class="col-form-label ">Código Autorização:</label>
-                    <input type="text" class="form-control" id="bank-code">
+                    <input type="text" class="form-control" id="authCode">
+                   </div>
+                   <div class="col-4">
+                    <label  class="col-form-label ">Valor:</label>
+                    <input type="text" class="form-control" id="amount">
                    </div>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary">Confirmar</button>
+              <button type="button" class="btn btn-primary" (click)="depositOrderAsync()">Confirmar</button>
             </div>
           </div>
         </div>
-      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="purchaseModal">Compra de Ativo - {{ asset }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+            <div class="form-group">
+                <div class="col-6">
+                    <label  class="col-form-label">Quantidade:</label>
+                    <input type="text" id="qtd" class="form-control">
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="assetPurshaseOrderAsync()">Comprar</button>
+        </div>
+        </div>
+    </div>
+    </div>
+

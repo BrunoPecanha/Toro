@@ -5,6 +5,7 @@ using Toro.Domain.Entity;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Toro.Repository.Context {
     public class ToroContext : IdentityDbContext, IToroContext {
@@ -37,7 +38,7 @@ namespace Toro.Repository.Context {
             optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
         }
 
-        public override int SaveChanges() {
+        public async Task<int> SaveChangesAsync() {
             foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("RegisteringDate") != null)) {
                 if (entry.State == EntityState.Added) {
                     entry.Property("RegisteringDate").CurrentValue = DateTime.Now;
@@ -48,7 +49,7 @@ namespace Toro.Repository.Context {
                     entry.Property("LastUpdate").CurrentValue = DateTime.Now;
                 }
             }
-            return base.SaveChanges();
+            return await base.SaveChangesAsync();
         }
     }
 }

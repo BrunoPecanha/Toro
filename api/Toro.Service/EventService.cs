@@ -12,9 +12,11 @@ using Toro.Service.External;
 namespace Toro.Service {
     public class EventService : IEventService {
         private readonly IToroContext _dbContext;
-        private const string noMatchingInfo = "Não foi encontrado o investidor correspondente";
+        private const string noMatchingInfo = "Depósitos só podem ser feitos para o mesmo CPF desta conta.";
         private const string spbFailure = "Falha ao notificar o BC sobre a transação";
         private const string noEnoughCash = "Sem saldo suficiente para essa operação";
+        private const string sucessedBought = "Ativo adquirido com sucesso!";
+        private const string amountDepositedSucessed = "Depósito realizado com sucesso!";
 
         public EventService(IToroContext dbContext) {
             _dbContext = dbContext;
@@ -23,9 +25,9 @@ namespace Toro.Service {
         public async Task<CommandResult> OrderAsync(EventCommand command) {
 
             try {
-
                 User user = _dbContext.User.Where(x => x.Cpf == command.Cpf).FirstOrDefault();
-                if (user is null) {
+
+                if (command.EventType == EventEnum.Transfer && user is null) {
                     throw new Exception(noMatchingInfo);
                 }
 
@@ -43,7 +45,7 @@ namespace Toro.Service {
                         investor = new Investor(user);
                     }
 
-                    investorPatrimony = new Patrimony(investor, 0);
+                    investorPatrimony = new Patrimony(investor, command.Amount);
                     _dbContext.Patrimony.Add(investorPatrimony);
                 }
 
@@ -57,9 +59,9 @@ namespace Toro.Service {
                     }
 
                     investorPatrimony.UpdateAmount(command.Amount);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
 
-                    return new CommandResult(true, string.Empty, investorPatrimony);
+                    return new CommandResult(true, amountDepositedSucessed, investorPatrimony);
 
                 } else {
                     var asset = _dbContext.Asset.Where(x => x.Id == command.AssetId).FirstOrDefault();
@@ -70,9 +72,9 @@ namespace Toro.Service {
                         throw new Exception(noEnoughCash);
                 }
 
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
 
-                return new CommandResult(true, string.Empty, null);
+                return new CommandResult(true, sucessedBought, null);
             } catch (Exception ex) {
                 return new CommandResult(false, ex.Message, null);
             }
