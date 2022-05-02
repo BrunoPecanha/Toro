@@ -1,10 +1,10 @@
 ﻿namespace Toro.Domain.Entity {
     public class AssetXPatrimony : To<int>{
-        public int PatrimonyId { get; set; }
-        public Patrimony Patrimony { get; set; }
-        public string AssetId { get; set; }
-        public Asset Asset { get; set; }
-        public int Amount { get; set; }        
+        public int PatrimonyId { get; private set; }
+        public Patrimony Patrimony { get; private set; }
+        public string AssetId { get; private set; }
+        public Asset Asset { get; private set; }
+        public int Amount { get; private set; }        
 
         private AssetXPatrimony() {
         }

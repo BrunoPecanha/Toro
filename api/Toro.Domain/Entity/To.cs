@@ -15,6 +15,6 @@ namespace Toro.Domain.Entity {
         /// <summary>
         /// Ultima atualização do registro
         /// </summary>
-        public DateTime LastUpdate { get; set; }
+        public DateTime LastUpdate { get; private set; }
     }
 }

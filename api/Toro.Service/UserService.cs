@@ -30,14 +30,7 @@ namespace Toro.Service {
             try {
 
                 if (!await _repositoryInvestor.IsCpfAlreadyRegistered(command.Cpf)) {
-                    var user = new User() {
-                        UserName = command.Email,
-                        Email = command.Email,
-                        Cpf = command.Cpf,
-                        EmailConfirmed = true,
-                        Id = Guid.NewGuid().ToString(),
-                        RegisteringDate = DateTime.Now
-                    };
+                    var user = new User(command.Email, command.Email, command.Cpf);
 
                     var result = await _userManager.CreateAsync(user, command.Password);
                     if (!result.Succeeded)

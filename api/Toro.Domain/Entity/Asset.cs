@@ -3,7 +3,7 @@
 namespace Toro.Domain.Entity {
     public class Asset : To<string> { 
         public decimal CurrentPrice { get; private set; }
-        public IList<AssetXPatrimony> AssetXPatrimony { get; set; }
+        public IList<AssetXPatrimony> AssetXPatrimony { get; private set; }
 
         private Asset()  {
         }

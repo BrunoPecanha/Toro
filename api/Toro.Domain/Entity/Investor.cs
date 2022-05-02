@@ -6,9 +6,9 @@ namespace Toro.Domain.Entity {
         public int Account { get; private set; }
         public int Branch { get; private set; }
         public int PatrimonyId { get; set; }
-        public Patrimony Patrimony { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public Patrimony Patrimony { get; private set; }
+        public string UserId { get; private set; }
+        public User User { get; private set; }
 
         private Investor() {                 
         }
