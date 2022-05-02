@@ -98,5 +98,9 @@ namespace Toro.Repository {
                                         .Include(x => x.User)
                                         .FirstOrDefaultAsync(x => x.UserId.Equals(id));
         }
+
+        public async Task<bool> IsCpfAlreadyRegistered(string cpf) {
+            return await _dbContext.Investor.AnyAsync(x => x.Cpf.Equals(cpf));
+        }
     }
 }

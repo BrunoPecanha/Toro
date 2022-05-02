@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Toro.Domain;
 using Toro.Repository;
@@ -11,11 +12,12 @@ namespace Toro.Service.Extensions {
             services.AddDbContext<ToroContext>(o => o.UseSqlite(connectionString));
             services.AddTransient<IToroContext, ToroContext>();
 
-            //Entidadades
+            //Serviços
             services.AddTransient<IInvestorRepository, InvestorRepository>();
             services.AddTransient<IPatrimonyRepository, PatrimonyRepository>();
             services.AddTransient<IEventService, EventService>();
-            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IdentityErrorDescriber, IdentityErrorDescriberService>();
 
             return services;
         }

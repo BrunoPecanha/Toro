@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async logout() {    
+  async logoutAsync() {    
     if (await this.dialog.confirm('Sair', 'Deseja realmente sair?')){
       this.tokenStorage.signOut();
       window.location.reload();
