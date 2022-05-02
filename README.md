@@ -178,6 +178,6 @@ Peçanha, Bruno;
 
 ## Instruções para rodar
 
-Para download dos pacotes utilizados com  o .net , rodar dotnet restore
+Para download dos pacotes utilizados com  o .net , rodar dotnet restore; \n
 Para download dos pacotes utilizados com o angular, rodar npm install
 
