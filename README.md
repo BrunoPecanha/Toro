@@ -175,3 +175,9 @@ Para o Frontend, você deve oferecer um fluxo onde o usuário veja lista dos ati
 
 ## Authors
 Peçanha, Bruno;
+
+## Instruções para rodar
+
+Para download dos pacotes utilizados com  o .net , rodar dotnet restore
+Para download dos pacotes utilizados com o angular, rodar npm install
+
