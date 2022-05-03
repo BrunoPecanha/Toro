@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
         await this._authService.create(this.rCpf, this.rEmail, this.rPassword);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
+        await this.dialog.showAlert('Sucesso', 'Usuário criado com sucesso !'); 
         this.dialog.reloadPage();
       } catch (error: any) {        
         this.dialog.showErr('Atenção', error.error);   
