@@ -20,10 +20,6 @@ namespace Toro.Repository.EntityConfig {
              .Property(c => c.CurrentPrice)
              .HasColumnName("CurrentPrice")
              .IsRequired();
-
-            builder
-            .Property(c => c.Id)
-            .HasColumnName("Symbol");
         }
     }
 }

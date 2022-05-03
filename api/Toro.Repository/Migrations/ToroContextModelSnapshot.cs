@@ -216,8 +216,7 @@ namespace Toro.Repository.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Symbol");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CurrentPrice")
                         .HasColumnType("TEXT")

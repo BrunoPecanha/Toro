@@ -9,7 +9,7 @@ using Toro.Repository.Context;
 namespace Toro.Repository.Migrations
 {
     [DbContext(typeof(ToroContext))]
-    [Migration("20220414055215_v1")]
+    [Migration("20220503175454_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,8 +218,7 @@ namespace Toro.Repository.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("Symbol");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("CurrentPrice")
                         .HasColumnType("TEXT")

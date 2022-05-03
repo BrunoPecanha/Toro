@@ -50,14 +50,14 @@ namespace Toro.Repository.Migrations
                 name: "Asset",
                 columns: table => new
                 {
-                    Symbol = table.Column<string>(type: "TEXT", nullable: false),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     CurrentPrice = table.Column<decimal>(type: "TEXT", nullable: false),
                     RegisteringDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Asset", x => x.Symbol);
+                    table.PrimaryKey("PK_Asset", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,7 +260,7 @@ namespace Toro.Repository.Migrations
                         name: "FK_AssetXPatrimony_Asset_AssetId",
                         column: x => x.AssetId,
                         principalTable: "Asset",
-                        principalColumn: "Symbol",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AssetXPatrimony_Patrimony_PatrimonyId",

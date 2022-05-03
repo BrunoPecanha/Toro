@@ -12,6 +12,7 @@ namespace Toro.Domain.Entity {
             this.UserName = userName;
             this.Cpf = cpf;
             this.Email = email;
+            this.Id = Id = Guid.NewGuid().ToString();
         }
     }
 }

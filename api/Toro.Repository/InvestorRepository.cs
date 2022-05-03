@@ -38,7 +38,7 @@ namespace Toro.Repository {
                 if (query is null) {
                     return new CommandResult(true, erromsg, null);
                 }
-
+       
                 var assets = query.AssetXPatrimony                                  
                                   .Select(x => new {
                                       Symbol = x.AssetId,
@@ -72,7 +72,7 @@ namespace Toro.Repository {
                                         .AsNoTracking()
                                         .Where(x => x.LastUpdate > DateTime.Now.AddDays(-7))
                                         .Select(x => x.Asset)                                      
-                                        .Take(5)
+                                        .Take(100)
                                         .ToArrayAsync();
                                         
                                         
