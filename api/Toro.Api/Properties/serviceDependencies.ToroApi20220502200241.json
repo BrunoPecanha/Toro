@@ -2,7 +2,8 @@
   "dependencies": {
     "apis1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/ToroApi/apis/ToroApi",
-      "type": "apis.azure"
+      "type": "apis.azure",
+      "apiEndpoint": "https://toroapi.azure-api.net/ToroApi"
     }
   }
 }

@@ -25,8 +25,10 @@ namespace api {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            var dbConnectionString = Configuration.GetConnectionString("sqlLiteConnection");
-            services.AddDbContext<ToroContext>(options => options.UseSqlite(dbConnectionString));
+            //var dbConnectionString = Configuration.GetConnectionString("sqlLiteConnection");
+            //services.AddDbContext<ToroContext>(options => options.UseSqlite(dbConnectionString));
+            var dbConnectionString = Configuration.GetConnectionString("sqlServerConnection");
+            services.AddDbContext<ToroContext>(options => options.UseSqlServer(dbConnectionString));
             services.RegisterServices(Configuration.GetConnectionString(dbConnectionString));
             services.AddControllers();
 

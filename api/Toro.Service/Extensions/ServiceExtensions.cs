@@ -9,7 +9,7 @@ namespace Toro.Service.Extensions {
     public static class ServiceExtensions {
         public static IServiceCollection RegisterServices(this IServiceCollection services, string connectionString) {
 
-            services.AddDbContext<ToroContext>(o => o.UseSqlite(connectionString));
+            services.AddDbContext<ToroContext>(o => o.UseSqlServer(connectionString));
             services.AddTransient<IToroContext, ToroContext>();
 
             //Serviços

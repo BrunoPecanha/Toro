@@ -14,7 +14,7 @@ namespace Toro.Repository.Context {
                 : base(options) {
             if (connectionString is null) {
                 // Para acesso do migrations à connectionstring
-                connectionString = configuration.GetSection("ConnectionStrings:sqlLiteConnection").Value;
+                connectionString = configuration.GetSection("ConnectionStrings:sqlServerConnection").Value;
             }
         }
 
@@ -31,10 +31,10 @@ namespace Toro.Repository.Context {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlite(connectionString);
+                optionsBuilder.UseSqlServer(connectionString);
             }
 
-            optionsBuilder.UseSqlite(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
             optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
         }
 
